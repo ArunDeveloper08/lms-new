@@ -1,0 +1,86 @@
+.image-css {
+  filter: invert(1);
+}
+
+.table-for-pdf {
+  margin: 10px;
+  font-size: 10px;
+}
+
+.table-for-pdf>thead {
+  border-collapse: separate;
+  border-width: 1px 1px;
+  border-color: black;
+}
+
+.table-for-pdf>thead>tr>th {
+  border-collapse: separate;
+  font-weight: 900;
+  border-width: 0px 1px;
+  border-color: black;
+}
+
+.table-for-pdf>tbody>tr>td {
+  border-collapse: separate;
+  border-width: 1px 1px;
+  border-color: black;
+}
+
+.table-for-pdf>tbody {
+  border-width: 0px 0px 1px 0px;
+  border-color: black;
+}
+
+
+.remove-number-input-styles input::-webkit-outer-spin-button,
+.remove-number-input-styles input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.remove-number-input-styles input[type=number] {
+  -moz-appearance: textfield;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+.table-for-challan {
+  width: 100%;
+  text-align: center;
+}
+
+.table-for-challan>thead {
+  border-collapse: separate;
+  border-width: 1px;
+  border-color: black;
+  color: rgb(230, 221, 221);
+  background: rgb(83, 83, 83);
+}
+
+.table-for-challan>thead>tr>th {
+  border-collapse: separate;
+  font-weight: 900;
+  padding: 2px 15px;
+  border-width: 0px 1px;
+  border-color: black;
+}
+
+.table-for-challan>tbody>tr>td {
+  border-collapse: separate;
+  padding: 2px 0;
+  border-width: 1px 1px;
+  border-color: black;
+}
+
+.table-for-challan>tbody>tr:nth-child(even) {
+  background: rgb(168, 168, 168);
+}
+
+.table-for-challan>tbody {
+  border-width: 0px 0px 1px 0px;
+  border-color: black;
+}
