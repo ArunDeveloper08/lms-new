@@ -51,7 +51,7 @@ import secureLocalStorage from "react-secure-storage";
 
 const CsrTab = () => {
   // Load the initial tab value from localStorage or default to "1"
-  const initialTabValue = secureLocalStorage.getItem("selectedTab") || "1";
+  const initialTabValue = secureLocalStorage.getItem("selectedTab") || "2";
 
   const [value, setValue] = React.useState(initialTabValue);
 
@@ -74,7 +74,7 @@ const CsrTab = () => {
             onChange={handleChange}
             aria-label="lab API tabs example"
           >
-            <Tab label="CSR Form" value="1" />
+            <Tab label="Add New CSR " value="1" />
             <Tab label="CSR List" value="2" />
           </TabList>
         </Box>

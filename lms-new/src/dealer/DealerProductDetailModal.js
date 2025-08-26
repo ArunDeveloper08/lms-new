@@ -26,14 +26,14 @@ const Texts = styled(Typography)`
 
 const DealerProductDetailModal = ({ open, setOpen, all }) => {
   const navigate = useNavigate();
-  console.log({ all, open });
+//  console.log({ all, open });
   const handleClose = () => {
     setOpen(false);
   };
  
 
   const handlePDF = (item) => {
-    console.log(item);
+  //  console.log(item);
     navigate(
       `${mainRoute}/downloadDealerchallanpdf/${item.challanNumber}?type=externalNonReturnableChallan`
     );

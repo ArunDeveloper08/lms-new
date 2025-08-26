@@ -163,7 +163,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
     XLSX.writeFile(
       wb,
-      `MarktingExcel-${new Date().toDateString("en-GB", {
+      `Store-Excel-${new Date().toDateString("en-GB", {
         day: "numeric",
         month: "short",
         year: "numeric",

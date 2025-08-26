@@ -54,8 +54,8 @@ const RecievedWithDongle = () => {
         axios.get(window.MyApiRoute + "sites")
             .then(res => {
                 return (
-                    setSite(res.data.data),
-                    console.log(res.data.data)
+                    setSite(res.data.data)
+                   // console.log(res.data.data)
                 )
             })
             .catch(err => console.log(err));

@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import secureLocalStorage from "react-secure-storage";
 import axios from "axios";
+import * as XLSX from "xlsx";
 import {
   Autocomplete,
   Box,
@@ -57,8 +58,8 @@ const CustomerSite = () => {
   const [site, setSite] = useState([]);
   const [loading, setLoading] = useState(false);
   const { selectedItem } = useSelector((state) => state.itemReducer);
-    const [remarkModalOpen, setRemarkModalOpen] = useState(false);
-    const [selectedRemarks, setSelectedRemarks] = useState([]);
+  const [remarkModalOpen, setRemarkModalOpen] = useState(false);
+  const [selectedRemarks, setSelectedRemarks] = useState([]);
   const [open, setOpen] = useState({
     open: false,
     from: "siteStore",
@@ -81,19 +82,19 @@ const CustomerSite = () => {
     productType: selectedItem,
   });
 
-  const a = JSON.parse(secureLocalStorage.getItem("info")).data;
+  const a = JSON.parse(secureLocalStorage.getItem("info"))?.data;
   const api = () =>
     axios
       .post(
         window.MyApiRoute +
-        `record/get?category=${selectedItem}&location=onSite&dealerName=${input.dealerName || ""
-        }`,
+          `record/get?category=${selectedItem}&location=onSite&dealerName=${
+            input.dealerName || ""
+          }`,
         {
           ...a,
         }
       )
       .then((res) => {
-    
         setAll(res.data.Data);
         setData2(res.data.Data);
       })
@@ -106,13 +107,9 @@ const CustomerSite = () => {
   useEffect(() => {
     api();
     getSitesandDealers();
-    // axios
-    // .get(window.MyApiRoute + "dealer/get")
-    // .then((res) => {
-    //   return setSite(res.data.details), console.log("dealer name",res.data.details);
-    // })
-    // .catch((err) => console.log(err));
+   
   }, [selectedItem, input]);
+
   useEffect(() => {
     const debouncedFilter = debounce(() => {
       if (filter?.Meter_Serial_No?.trim() === "") {
@@ -158,6 +155,7 @@ const CustomerSite = () => {
       debouncedFilter.cancel(); // Cleanup function to cancel the debounced function when the effect is cleaned up
     };
   }, [filter]);
+
   const handleFilterChange = (e) => {
     setFilter({ [e.target.name]: e.target.value });
   };
@@ -168,6 +166,7 @@ const CustomerSite = () => {
       },
     },
   };
+  
   const reject = (item) => {
     setModal({
       open: true,
@@ -205,6 +204,32 @@ const CustomerSite = () => {
     setRemarkModalOpen(false);
   };
 
+    const excelData =
+    data2 &&
+    data2?.map((item) => {
+      return {
+        Product_Sr_No: item.Meter_Serial_No,
+        Created_At: item.createdAt,
+        Category: item.Category,
+        Job_Card_No: item.Job_Card_No,
+      };
+    });
+
+      const downloadExcel = (excelData) => {
+        var wb = XLSX.utils.book_new(),
+          ws = XLSX.utils.json_to_sheet(excelData);
+    
+        XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+        XLSX.writeFile(
+          wb,
+          `Customer-site-Excel-${new Date().toDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          })}.xlsx`
+        );
+      };
+
   return (
     <>
       <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 items-center justify-around pb-3">
@@ -216,37 +241,44 @@ const CustomerSite = () => {
           className="border-2 py-2 px-5 w-[300px] border-gray-500 rounded"
           placeholder="Serial Number"
         />
-        {
-          a.Designation === "Engineer" && (
-            <>
-            
-                 <div
-          className={`pt-3 flex ${a.Designation === "storekeeper" ? "w-1/1" : ""
-            } px-8 pb-3 flex justify-between mt-1 h-[67px]`}
-        >
-          <select
-            name="Category"
-            debounce={300}
-            onChange={(e) => handleFilterChange(e)}
-            value={filter.Category ?? ""}
-            className="border-2 py-2 px-5 w-[300px] border-gray-500 rounded"
-            placeholder="Serial Number"
-          >
-            <option value="">Category</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option Value="C">C</option>
-            <option value="D">D</option>
-          </select>
-        </div>
-        <h1> No. of Products : {data2?.length ?? 0}</h1>
-            </>
-          )
-        }
-   
-        
+        {a.Designation === "Engineer" && (
+          <>
+            <div
+              className={`pt-3 flex ${
+                a.Designation === "storekeeper" ? "w-1/1" : ""
+              } px-8 pb-3 flex justify-between mt-1 h-[67px]`}
+            >
+              <select
+                name="Category"
+                debounce={300}
+                onChange={(e) => handleFilterChange(e)}
+                value={filter.Category ?? ""}
+                className="border-2 py-2 px-5 w-[300px] border-gray-500 rounded"
+                placeholder="Serial Number"
+              >
+                <option value="">Category</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option Value="C">C</option>
+                <option value="D">D</option>
+              </select>
+            </div>
+            <h1> No. of Products : {data2?.length ?? 0}</h1>
+          </>
+        )}
+
+            {(a?.Designation === "storekeeper" || a?.Designation === "CEO" ) && (
+              <Button
+                variant="contained"
+                onClick={() => downloadExcel(excelData)}
+                sx={{ width: { xs: "100%", sm: "auto" } }}
+              >
+                Excel
+              </Button>
+            )}
+{/*                                                 
         <Box sx={{ width: 300 }}>
-          <Autocomplete
+          <Autocomplete                                    
             onChange={(e, f) => onChange("dealerId", f)}
             className="flex-1"
             disabled={loading || !siteName?.loading}
@@ -261,20 +293,18 @@ const CustomerSite = () => {
               <TextField {...params} label="Select Dealer" />
             )}
           />
-        </Box>
+        </Box> */}
       </div>
       <TableContainer sx={{ maxHeight: 350, paddingY: 0 }} component={Paper}>
         <Table stickyHeader aria-label="customized table">
           <TableHead>
             <TableRow>
-
               <StyledTableCell sx={{ padding: 0 }} align="center">
                 Category
               </StyledTableCell>
               <StyledTableCell sx={{ paddingX: 0 }} align="center">
                 Serial No.
               </StyledTableCell>
-
               <StyledTableCell sx={{ paddingX: 0 }} align="center">
                 ID
               </StyledTableCell>
@@ -287,14 +317,17 @@ const CustomerSite = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data2 && data2?.map((item, b) => {
-             // const logs = JSON.parse(item.ActivityLog);
-             const remarks = JSON.parse(item?.ActivityLog) || [];
-             const lastRemark = remarks.length ? remarks[remarks.length - 1] : null;
-              // console.log(logs);
-              return (
-                <StyledTableRow key={b}>
-                  {/* {a.Designation === "storekeeper" && (
+            {data2 &&
+              data2?.map((item, b) => {
+                // const logs = JSON.parse(item.ActivityLog);
+                const remarks = JSON.parse(item?.ActivityLog) || [];
+                const lastRemark = remarks.length
+                  ? remarks[remarks.length - 1]
+                  : null;
+                // console.log(logs);
+                return (
+                  <StyledTableRow key={b}>
+                    {/* {a.Designation === "storekeeper" && (
                     <StyledTableCell align="center">
                       <div className="flex flex-col gap-y-2">
                         <Button
@@ -306,55 +339,63 @@ const CustomerSite = () => {
                       </div>
                     </StyledTableCell>
                   )} */}
-                  <StyledTableCell align="center">
-                    {item.Category ?? "-"}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {item.Meter_Serial_No ?? "-"}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {item.Meter_Id ?? "-"}
-                  </StyledTableCell>
-                  <StyledTableCell sx={{ paddingY: 1 }} align="center">
-                    {item.Job_Card_No ?? "-"}
-                  </StyledTableCell>
-                  <StyledTableCell align="center"
-                   onClick={() => handleRemarkClick(remarks)}
-                   className="cursor-pointer"
-                  >
-                    {/* {logs?.map((log, ind) => (
+                    <StyledTableCell align="center">
+                      {item.Category ?? "-"}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {item.Meter_Serial_No ?? "-"}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {item.Meter_Id ?? "-"}
+                    </StyledTableCell>
+                    <StyledTableCell sx={{ paddingY: 1 }} align="center">
+                      {item.Job_Card_No ?? "-"}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      align="center"
+                      onClick={() => handleRemarkClick(remarks)}
+                      className="cursor-pointer"
+                    >
+                      {/* {logs?.map((log, ind) => (
                       <p key={ind} className="flex space-x-5">
                         <span>Date:{log.date}</span>
                         <span>Remark:{log.remark}</span>
                       </p>
                     ))} */}
-                      {lastRemark ? `Date: ${lastRemark.date}, Remark: ${lastRemark.remark}` : "No Remarks"}
-                  </StyledTableCell>
-                </StyledTableRow>
-              );
-            })}
+                      {lastRemark
+                        ? `Date: ${lastRemark.date}, Remark: ${lastRemark.remark}`
+                        : "No Remarks"}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <MainModal1 api={api} open={open} setOpen={setOpen} />
 
       <CustomerSiteModal api={api} setModal={setModal} modal={modal} />
-        <Dialog open={remarkModalOpen} onClose={handleClose} maxWidth="sm" fullWidth>
-              <DialogTitle>All Remarks</DialogTitle>
-              <DialogContent>
-                {selectedRemarks?.map((log, index) => (
-                  <p key={index} className="mt-2">
-                    <strong>Date:</strong> {log.date} <br />
-                    <strong>Remark:</strong> {log.remark}
-                  </p>
-                ))}
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  Close
-                </Button>
-              </DialogActions>
-            </Dialog>
+      <Dialog
+        open={remarkModalOpen}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>All Remarks</DialogTitle>
+        <DialogContent>
+          {selectedRemarks?.map((log, index) => (
+            <p key={index} className="mt-2">
+              <strong>Date:</strong> {log.date} <br />
+              <strong>Remark:</strong> {log.remark}
+            </p>
+          ))}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

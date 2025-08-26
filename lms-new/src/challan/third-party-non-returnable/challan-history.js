@@ -20,6 +20,7 @@ const ChallanHistory = () => {
   const userInfo = JSON.parse(secureLocalStorage.getItem("info")).data;
   const [engineer, setEngineer] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState("");
   //   useEffect(() => {
   //     const newParams = new URLSearchParams();
   //     if (engineerName) newParams.set("engineer", engineerName);
@@ -44,6 +45,33 @@ const ChallanHistory = () => {
       .catch((err) => console.log({ err }));
   }, []);
 
+  // const searchChallan = async () => {
+  //   setLoading(true);
+  //   const url = qs.stringifyUrl({
+  //     url: `${window.MyApiRoute}record/get`,
+  //     query: {
+  //       category: "3-phaseMeter",
+  //       issueToDealerId: engineerName.ID,
+  //       location: "getChallanDetails",
+  //       challanType: "thirdParty non-returnable challan",
+  //       month : selectedMonth,
+  //     },
+  //   });
+  //   try {
+  //     const { data } = await axios.post(url, userInfo);
+
+  //     const statusFormatting = data.Data.filter((item) => {
+  //       if (status === "" || status === undefined) return true;
+  //       return item.Status === status;
+  //     });
+  //     setData(statusFormatting);
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setLoading(false);
+  //   }
+  // };
+  //   console.log(engineer)
   const searchChallan = async () => {
     setLoading(true);
     const url = qs.stringifyUrl({
@@ -53,23 +81,53 @@ const ChallanHistory = () => {
         issueToDealerId: engineerName.ID,
         location: "getChallanDetails",
         challanType: "thirdParty non-returnable challan",
+        month: selectedMonth,
       },
     });
+
     try {
       const { data } = await axios.post(url, userInfo);
 
-      const statusFormatting = data.Data.filter((item) => {
-        if (status === "" || status === undefined) return true;
-        return item.Status === status;
-      });
-      setData(statusFormatting);
-      setLoading(false);
+      if (!data.Data || data.Data.length === 0) {
+        // Clear previous data if no new data found
+        setData([]);
+      } else {
+        const statusFormatting = data.Data.filter((item) => {
+          if (status === "" || status === undefined) return true;
+          return item.Status === status;
+        });
+        setData(statusFormatting);
+      }
     } catch (error) {
       console.log(error);
+      setData([]); // Clear data on error too
+    } finally {
       setLoading(false);
     }
   };
-  //   console.log(engineer)
+
+  const allMonths = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const currentMonthIndex = new Date().getMonth();
+
+  // Slice array to include only months up to the current one
+  const availableMonths = allMonths.slice(0, currentMonthIndex + 1);
+  const handleChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
 
   return (
     <section>
@@ -89,7 +147,7 @@ const ChallanHistory = () => {
             />
           )}
         />
-        <select
+        {/* <select
           name="Status"
           debounce={300}
           onChange={(e) => setStatus(e.target.value)}
@@ -99,18 +157,41 @@ const ChallanHistory = () => {
           <option value="">All Status</option>
           <option value="open">open</option>
           <option value="close">close</option>
-        </select>
+        </select> */}
+
+        <div>
+          <select
+            id="month-select"
+            value={selectedMonth}
+            onChange={handleChange}
+            className="border-black border-[1px] rounded-md  w-[200px] h-[50px]"
+          >
+            <option value="">Select a month</option>
+            {availableMonths.map((month, index) => (
+              <option key={index} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
+        </div>
         <p>No of Challans :{data.length}</p>
         <Button
           onClick={searchChallan}
           variant="contained"
-          sx={{ paddingX: 4 }}>
+          sx={{ paddingX: 4 }}
+        >
           Search
         </Button>
       </div>
       {loading && (
         <p className="text-2xl font-semibold flex justify-center">Loading...</p>
       )}
+      {!loading && data.length === 0 && (
+        <div className="flex items-center justify-center h-screen">
+          <p className="text-center text-gray-500 text-2xl">No data found</p>
+        </div>
+      )}
+
       {data?.map((item, index) => (
         <section key={index} className="grid grid-cols-3">
           <div className="col-span-3">

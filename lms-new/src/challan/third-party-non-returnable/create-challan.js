@@ -281,7 +281,7 @@ const ThirdPartyNonCreateChallan = () => {
     const confirm = window.confirm(
       "Are you sure you want to create the Challan?"
     );
-    console.log(challan);
+    //console.log(challan);
     if (confirm) {
       await axios
         .put(

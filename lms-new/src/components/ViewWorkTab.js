@@ -13,7 +13,7 @@ import ProductHistoryEmployee from "./Sim/ProductHistoryEmployee";
 import  secureLocalStorage  from  "react-secure-storage";
 const ViewWorkTab = () => {
   const info = JSON.parse(secureLocalStorage.getItem("info"));
-  console.log({ info });
+ // console.log({ info });
   const [value, setValue] = useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);

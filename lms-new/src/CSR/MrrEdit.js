@@ -13,7 +13,7 @@ const MrrEdit = () => {
   const hours = now.getHours().toString().padStart(2, "0");
   const minutes = now.getMinutes().toString().padStart(2, "0");
   const currentTime = `${hours}:${minutes}`;
-  const a = JSON.parse(secureLocalStorage.getItem("info")).data;
+  const a = JSON.parse(secureLocalStorage.getItem("info"))?.data;
   const [row, setRow] = useState(edit);
   //   const [ row, setRow ] = useState({
   //     Customer_Name: "",

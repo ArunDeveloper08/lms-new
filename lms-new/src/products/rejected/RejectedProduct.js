@@ -13,7 +13,8 @@ import RejectedProductModal from "./RejectedProductModal";
 import { useSelector } from "react-redux";
 import MainModal1 from "../MainModal/MainModal1";
 import { debounce } from "lodash";
-import  secureLocalStorage  from  "react-secure-storage";
+import secureLocalStorage from "react-secure-storage";
+import * as XLSX from "xlsx";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -107,6 +108,40 @@ const RejectedProduct = () => {
     };
   }, [filter, val]);
 
+
+    const excelData =
+    data &&
+    data?.map((item) => {
+      return {
+        Product_Sr_No: item.Meter_Serial_No,
+        Created_At: item.createdAt,
+        Category: item.Category,
+        Job_Card_No: item.Job_Card_No,
+      };
+    });
+
+    const downloadExcel = (excelData) => {
+
+      if(excelData?.length > 0){
+   var wb = XLSX.utils.book_new(),
+        ws = XLSX.utils.json_to_sheet(excelData);
+  
+      XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+      XLSX.writeFile(
+        wb,
+        `Rejected-Excel-${new Date().toDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}.xlsx`
+      );
+      }else{
+        alert(" Data is not avliable to download excel .")
+      }
+   
+    };
+
+
   return (
     <>
       {/* <div
@@ -188,81 +223,114 @@ const RejectedProduct = () => {
         </Table>
       </TableContainer> */}
       <div
-  className={`pt-3 flex flex-col sm:flex-row sm:items-center gap-3 px-4 pb-3 sm:justify-between ${
-    info.data.Designation === "storekeeper" ? "w-full" : ""
-  }`}
->
-  <input
-    name="Meter_Serial_No"
-    debounce={300}
-    onChange={(e) => handleFilterChange(e)}
-    value={filter.Meter_Serial_No ?? ""}
-    className="border-2 py-2 px-5 w-full sm:w-[300px] border-gray-500 rounded"
-    placeholder="Serial Number"
-  />
-  <h1 className="text-center sm:text-left">No. of Products: {data?.length ?? 0}</h1>
-  <select
-    onChange={(e) => api(e.target.value)}
-    className="border-2 w-full sm:w-[200px] rounded py-2 px-5 border-gray-500"
-  >
-    <option value="DESC">New to Old</option>
-    <option value="ASC">Old to New</option>
-  </select>
-</div>
-<TableContainer sx={{ maxHeight: "67vh", paddingY: 0 }} component={Paper}>
-  <Table aria-label="customized table">
-    <TableHead>
-      <TableRow>
-        <StyledTableCell align="center" sx={{ padding: 0, minWidth: { xs: 80, sm: 100 } }}>
-          Category
-        </StyledTableCell>
-        <StyledTableCell sx={{ paddingX: 0, minWidth: { xs: 100, sm: 120 } }} align="center">
-          Serial No.
-        </StyledTableCell>
-        <StyledTableCell sx={{ paddingX: 0, minWidth: { xs: 80, sm: 100 } }} align="center">
-          ID
-        </StyledTableCell>
-        <StyledTableCell sx={{ paddingX: 0, minWidth: { xs: 100, sm: 120 } }} align="center">
-          Job Card No
-        </StyledTableCell>
-        <StyledTableCell sx={{ paddingX: 0, minWidth: { xs: 200, sm: 300 } }} align="center">
-          Activity Logs
-        </StyledTableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {data?.length ? (
-        data.map((item, index) => {
-          const remark = JSON.parse(item.ActivityLog);
-          return (
-            <StyledTableRow key={index}>
-              <StyledTableCell align="center">{item.Category ?? "-"}</StyledTableCell>
-              <StyledTableCell align="center">{item.Meter_Serial_No ?? "-"}</StyledTableCell>
-              <StyledTableCell align="center">{item.Meter_Id ?? "-"}</StyledTableCell>
-              <StyledTableCell sx={{ paddingY: 1 }} align="center">
-                {item.Job_Card_No ?? "-"}
+        className={`pt-3 flex flex-col sm:flex-row sm:items-center gap-3 px-4 pb-3 sm:justify-between ${
+          info.data.Designation === "storekeeper" ? "w-full" : ""
+        }`}
+      >
+        <input
+          name="Meter_Serial_No"
+          debounce={300}
+          onChange={(e) => handleFilterChange(e)}
+          value={filter.Meter_Serial_No ?? ""}
+          className="border-2 py-2 px-5 w-full sm:w-[300px] border-gray-500 rounded"
+          placeholder="Serial Number"
+        />
+        <h1 className="text-center sm:text-left">
+          No. of Products: {data?.length ?? 0}
+        </h1>
+        <select
+          onChange={(e) => api(e.target.value)}
+          className="border-2 w-full sm:w-[200px] rounded py-2 px-5 border-gray-500"
+        >
+          <option value="DESC">New to Old</option>
+          <option value="ASC">Old to New</option>
+        </select>
+
+            {(info.data.Designation === "storekeeper" || info.data.Designation === "CEO" ) && (
+              <Button
+                variant="contained"
+                onClick={() => downloadExcel(excelData)}
+                sx={{ width: { xs: "100%", sm: "auto" } }}
+              >
+                Excel
+              </Button>
+            )}
+      </div>
+      <TableContainer sx={{ maxHeight: "67vh", paddingY: 0 }} component={Paper}>
+        <Table aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell
+                align="center"
+                sx={{ padding: 0, minWidth: { xs: 80, sm: 100 } }}
+              >
+                Category
               </StyledTableCell>
-              <StyledTableCell align="center">
-                {remark.map((log) => (
-                  <p className="flex flex-col sm:flex-row sm:space-x-5 justify-center">
-                    <span>Date: {log.date}</span>
-                    <span>Remark: {log.remark}</span>
-                  </p>
-                ))}
+              <StyledTableCell
+                sx={{ paddingX: 0, minWidth: { xs: 100, sm: 120 } }}
+                align="center"
+              >
+                Serial No.
               </StyledTableCell>
-            </StyledTableRow>
-          );
-        })
-      ) : (
-        <StyledTableRow>
-          <StyledTableCell colSpan={5} align="center">
-            No Data Available
-          </StyledTableCell>
-        </StyledTableRow>
-      )}
-    </TableBody>
-  </Table>
-</TableContainer>
+              <StyledTableCell
+                sx={{ paddingX: 0, minWidth: { xs: 80, sm: 100 } }}
+                align="center"
+              >
+                ID
+              </StyledTableCell>
+              <StyledTableCell
+                sx={{ paddingX: 0, minWidth: { xs: 100, sm: 120 } }}
+                align="center"
+              >
+                Job Card No
+              </StyledTableCell>
+              <StyledTableCell
+                sx={{ paddingX: 0, minWidth: { xs: 200, sm: 300 } }}
+                align="center"
+              >
+                Activity Logs
+              </StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data?.length ? (
+              data.map((item, index) => {
+                const remark = JSON.parse(item.ActivityLog);
+                return (
+                  <StyledTableRow key={index}>
+                    <StyledTableCell align="center">
+                      {item.Category ?? "-"}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {item.Meter_Serial_No ?? "-"}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {item.Meter_Id ?? "-"}
+                    </StyledTableCell>
+                    <StyledTableCell sx={{ paddingY: 1 }} align="center">
+                      {item.Job_Card_No ?? "-"}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {remark.map((log) => (
+                        <p className="flex flex-col sm:flex-row sm:space-x-5 justify-center">
+                          <span>Date: {log.date}</span>
+                          <span>Remark: {log.remark}</span>
+                        </p>
+                      ))}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+              })
+            ) : (
+              <StyledTableRow>
+                <StyledTableCell colSpan={5} align="center">
+                  No Data Available
+                </StyledTableCell>
+              </StyledTableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <MainModal1 api={api} open={open} setOpen={setOpen} />
       <RejectedProductModal api={api} setModal={setModal} modal={modal} />
     </>

@@ -109,9 +109,9 @@ const CheckedProduct = ({
                 <TableBody>
                   {checkedItems &&
                     checkedItems.map((item, index) => {
-                      console.log("item", item);
+                    //  console.log("item", item);
                       const activity = JSON.parse(item.ActivityLog);
-                      console.log(activity);
+                    //  console.log(activity);
                       return (
                         <>
                           <StyledTableRow>

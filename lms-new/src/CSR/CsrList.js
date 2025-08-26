@@ -283,7 +283,527 @@
 // export default CsrList;
 
 // CsrList.js
-// CsrList.js
+
+// import axios from "axios";
+// import React, { useState, useEffect } from "react";
+// import { styled } from "@mui/material/styles";
+// import Box from "@mui/material/Box";
+// import Table from "@mui/material/Table";
+// import TableBody from "@mui/material/TableBody";
+// import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+// import TableContainer from "@mui/material/TableContainer";
+// import TableHead from "@mui/material/TableHead";
+// import TableRow from "@mui/material/TableRow";
+// import Paper from "@mui/material/Paper";
+// import CircularProgress from "@mui/material/CircularProgress";
+// import { useNavigate } from "react-router-dom";
+// import { Button, Typography } from "@mui/material";
+// import secureLocalStorage from "react-secure-storage";
+// import { mainRoute } from "../App";
+
+// const useDebounce = (value, delay) => {
+//   const [debouncedValue, setDebouncedValue] = useState(value);
+
+//   useEffect(() => {
+//     const handler = setTimeout(() => {
+//       setDebouncedValue(value);
+//     }, delay);
+
+//     return () => clearTimeout(handler);
+//   }, [value, delay]);
+
+//   return debouncedValue;
+// };
+
+// const StyledTableCell = styled(TableCell)(({ theme }) => ({
+//   [`&.${tableCellClasses.head}`]: {
+//     background: "linear-gradient(to right, #1a3c34, #2e5e54)",
+//     color: theme.palette.common.white,
+//     fontFamily: "'Playfair Display', 'Georgia', serif",
+//     fontSize: "0.9rem",
+//     padding: "8px 4px",
+//     [theme.breakpoints.down("sm")]: {
+//       fontSize: "0.75rem",
+//       padding: "6px 2px",
+//     },
+//   },
+//   [`&.${tableCellClasses.body}`]: {
+//     fontSize: "0.85rem",
+//     padding: "6px 4px",
+//     [theme.breakpoints.down("sm")]: {
+//       fontSize: "0.7rem",
+//       padding: "4px 2px",
+//     },
+//   },
+// }));
+
+// const StyledTableRow = styled(TableRow)(({ theme }) => ({
+//   "&:nth-of-type(odd)": {
+//     backgroundColor: "#f5f0e1",
+//   },
+//   "&:last-child td, &:last-child th": {
+//     border: 0,
+//   },
+//   "&:hover": {
+//     backgroundColor: "#e8e1c9",
+//   },
+// }));
+
+// const CsrList = () => {
+//   const navigate = useNavigate();
+//   const [data, setData] = useState(null);
+//   const [error, setError] = useState(null);
+//   const [text, setText] = useState("");
+//   const [text2, setText2] = useState("");
+//   const a = JSON.parse(secureLocalStorage.getItem("info"));
+
+//   const debouncedText = useDebounce(text, 300);
+//   const debouncedText2 = useDebounce(text2, 300);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const res = await axios.get(
+//           `${window.MyApiRoute}report?Employee_Id=${a.data.Employee_Id}`
+//         );
+//         setData(res.data);
+//       } catch (err) {
+//         console.error("Error fetching data:", err);
+//         setError("Failed to load data. Please try again later.");
+//         setData([]);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   const handleEdit = (row, index) => {
+//     navigate(`${mainRoute}/csrEdit`, { state: row });
+//   };
+
+//   // const handlePDF = (data) => {
+//   //   navigate(`${mainRoute}/csrformdownload`, { state: { data } });
+//   // };
+
+//   const handlePDF = (data) => {
+//     const csrNo = data.CSr_NO;
+//     const url = `${mainRoute}/csrformdownload?csr=${csrNo}`;
+//     window.open(url, "_blank"); // opens in new tab
+//   };
+
+//   const handleFilterChange = (e) => {
+//     setText(e.target.value);
+//   };
+
+//   const filteredData =
+//     data?.message?.filter((product) =>
+//       product.MeterSerialNo?.toLowerCase().includes(debouncedText.toLowerCase())
+//     ) || [];
+
+//   if (data === null && !error) {
+//     return (
+//       <Box
+//         sx={{
+//           display: "flex",
+//           flexDirection: "column",
+//           alignItems: "center",
+//           justifyContent: "center",
+//           height: "100vh",
+//           background: "linear-gradient(to bottom, #f5f5f5, #e0e0e0)",
+//         }}
+//       >
+//         <CircularProgress sx={{ color: "#1a3c34" }} />
+//         <Typography
+//           sx={{
+//             mt: 2,
+//             fontFamily: "'Playfair Display', 'Georgia', serif",
+//             color: "#1a3c34",
+//           }}
+//         >
+//           Loading Data...
+//         </Typography>
+//       </Box>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <Box
+//         sx={{
+//           display: "flex",
+//           alignItems: "center",
+//           justifyContent: "center",
+//           height: "100vh",
+//           background: "linear-gradient(to bottom, #f5f5f5, #e0e0e0)",
+//         }}
+//       >
+//         <Typography
+//           sx={{
+//             fontFamily: "'Playfair Display', 'Georgia', serif",
+//             color: "#d32f2f",
+//           }}
+//         >
+//           {error}
+//         </Typography>
+//       </Box>
+//     );
+//   }
+
+//   return (
+//     <Box
+//       sx={{
+//         background: "linear-gradient(to bottom, #f5f5f5, #e0e0e0)",
+//         minHeight: "100vh",
+//         p: { xs: 1, sm: 2 },
+//       }}
+//     >
+//       <Box
+//         sx={{
+//           display: "flex",
+//           justifyContent: "center",
+//           p: { xs: 1, sm: 2 },
+//           backgroundColor: "#fff",
+//           borderRadius: "8px",
+//           boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+//           mb: 2,
+//         }}
+//       >
+//         <Box sx={{ width: { xs: "100%", sm: "300px" } }}>
+//           <input
+//             name="Meter_Serial_No"
+//             onChange={handleFilterChange}
+//             value={text}
+//             className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+//             placeholder="Meter ID"
+//             style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif" }}
+//           />
+//         </Box>
+//         <Box sx={{ width: { xs: "100%", sm: "300px" } }}>
+//           <input
+//             name="CSr_NO"
+//             onChange={(e) => setText2(e.target.value)}
+//             value={text2}
+//             className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+//             placeholder="CSR NO."
+//             style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif" }}
+//           />
+//         </Box>
+//       </Box>
+
+//       {filteredData.length === 0 ? (
+//         <Box
+//           sx={{
+//             display: "flex",
+//             alignItems: "center",
+//             justifyContent: "center",
+//             height: "70vh",
+//             backgroundColor: "#fff",
+//             borderRadius: "8px",
+//             boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+//           }}
+//         >
+//           <Typography
+//             sx={{
+//               fontFamily: "'Playfair Display', 'Georgia', serif",
+//               color: "#1a3c34",
+//               fontSize: "1.2rem",
+//             }}
+//           >
+//             No Data Available
+//           </Typography>
+//         </Box>
+//       ) : (
+//         <>
+//           <Box sx={{ display: { xs: "none", md: "block" } }}>
+//             <TableContainer
+//               component={Paper}
+//               sx={{
+//                 maxHeight: "70vh",
+//                 borderRadius: "8px",
+//                 boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+//               }}
+//             >
+//               <Table stickyHeader aria-label="customized table">
+//                 <TableHead>
+//                   <TableRow>
+//                     <StyledTableCell
+//                       align="center"
+//                       sx={{
+//                         minWidth: 80,
+//                         position: "sticky",
+//                         left: 0,
+//                         zIndex: 100,
+//                         background:
+//                           "linear-gradient(to right, #1a3c34, #2e5e54)",
+//                       }}
+//                     >
+//                       Sr No.
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 120 }}>
+//                       Meter Id
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 150 }}>
+//                       Customer Name
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 150 }}>
+//                       Employee Name
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 130 }}>
+//                       Customer Mobile No.
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 100 }}>
+//                       Flat No
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 100 }}>
+//                       Address
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 180 }}>
+//                       Complaint Reported By CRM
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 200 }}>
+//                       Problem Identified By Service Engineer
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 180 }}>
+//                       Problem Rectified By Service Engineer
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 180 }}>
+//                       Attended Engineer Remarks
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 200 }}>
+//                       Customer Remarks
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 150 }}>
+//                       Date & Time
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 100 }}>
+//                       Edit
+//                     </StyledTableCell>
+//                     <StyledTableCell align="center" sx={{ minWidth: 100 }}>
+//                       PDF
+//                     </StyledTableCell>
+//                   </TableRow>
+//                 </TableHead>
+//                 <TableBody>
+//                   {filteredData
+//                     ?.filter((item) =>
+//                       item?.CSr_NO?.toString().includes(debouncedText2)
+//                     )
+//                     .map((row, index) => (
+//                       <StyledTableRow key={index}>
+//                         <StyledTableCell
+//                           align="center"
+//                           sx={{
+//                             position: "sticky",
+//                             left: 0,
+//                             zIndex: 50,
+//                             backgroundColor: "#f5f0e1",
+//                           }}
+//                         >
+//                           {row.CSr_NO || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.MeterSerialNo || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.Customer_Name || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.EmployeeName || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.MobileNo || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.FlatNo || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.Address || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.ComplaintReportedBy || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.ProblemIdentifiedByServiceEngineer || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.ProblemRectifiedByServiceEngineer || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.AttendedEngineerRemarks || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {row.CustomerRemarks || "-"}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           {new Date(row.createdAt).toLocaleString()}
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           <Button
+//                             variant="contained"
+//                             onClick={() => handleEdit(row, index)}
+//                             sx={{
+//                               background:
+//                                 "linear-gradient(to right, #1a3c34, #2e5e54)",
+//                               color: "#fff",
+//                               boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+//                               "&:hover": {
+//                                 background:
+//                                   "linear-gradient(to right, #2e5e54, #1a3c34)",
+//                               },
+//                               fontSize: { xs: "0.7rem", md: "0.875rem" },
+//                               padding: { xs: "4px 8px", md: "6px 12px" },
+//                             }}
+//                           >
+//                             Edit
+//                           </Button>
+//                         </StyledTableCell>
+//                         <StyledTableCell align="center">
+//                           <Button
+//                             variant="contained"
+//                             onClick={() => handlePDF(row)}
+//                             sx={{
+//                               background:
+//                                 "linear-gradient(to right, #d4af37, #b8972e)",
+//                               color: "#fff",
+//                               boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+//                               "&:hover": {
+//                                 background:
+//                                   "linear-gradient(to right, #b8972e, #d4af37)",
+//                               },
+//                               fontSize: { xs: "0.7rem", md: "0.875rem" },
+//                               padding: { xs: "4px 8px", md: "6px 12px" },
+//                             }}
+//                           >
+//                             PDF
+//                           </Button>
+//                         </StyledTableCell>
+//                       </StyledTableRow>
+//                     ))}
+//                 </TableBody>
+//               </Table>
+//             </TableContainer>
+//           </Box>
+
+//           <Box sx={{ display: { xs: "block", md: "none" }, p: 1 }}>
+//             {filteredData.map((row, index) => (
+//               <Paper
+//                 key={index}
+//                 sx={{
+//                   mb: 1,
+//                   p: 1.5,
+//                   borderRadius: "8px",
+//                   backgroundColor: "#f5f0e1",
+//                   boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+//                 }}
+//               >
+//                 <Typography
+//                   sx={{
+//                     fontFamily: "'Playfair Display', 'Georgia', serif",
+//                     fontSize: "0.9rem",
+//                     fontWeight: "bold",
+//                     color: "#1a3c34",
+//                     mb: 1,
+//                   }}
+//                 >
+//                   Sr No: {row.CSr_NO || "-"}
+//                 </Typography>
+//                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Meter ID:</strong> {row.MeterSerialNo || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Customer:</strong> {row.Customer_Name || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Employee:</strong> {row.EmployeeName || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Mobile No:</strong> {row.MobileNo || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Flat No:</strong> {row.FlatNo || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Address:</strong> {row.Address || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Complaint:</strong> {row.ComplaintReportedBy || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Problem Identified:</strong>{" "}
+//                     {row.ProblemIdentifiedByServiceEngineer || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Problem Rectified:</strong>{" "}
+//                     {row.ProblemRectifiedByServiceEngineer || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Engineer Remarks:</strong>{" "}
+//                     {row.AttendedEngineerRemarks || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Customer Remarks:</strong>{" "}
+//                     {row.CustomerRemarks || "-"}
+//                   </Typography>
+//                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
+//                     <strong>Date:</strong>{" "}
+//                     {new Date(row.createdAt).toLocaleString()}
+//                   </Typography>
+//                 </Box>
+//                 <Box
+//                   sx={{
+//                     display: "flex",
+//                     gap: 1,
+//                     mt: 1,
+//                     justifyContent: "flex-end",
+//                   }}
+//                 >
+//                   <Button
+//                     variant="contained"
+//                     onClick={() => handleEdit(row, index)}
+//                     sx={{
+//                       background: "linear-gradient(to right, #1a3c34, #2e5e54)",
+//                       color: "#fff",
+//                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+//                       "&:hover": {
+//                         background:
+//                           "linear-gradient(to right, #2e5e54, #1a3c34)",
+//                       },
+//                       fontSize: "0.7rem",
+//                       padding: "4px 8px",
+//                     }}
+//                   >
+//                     Edit
+//                   </Button>
+//                   <Button
+//                     variant="contained"
+//                     onClick={() => handlePDF(row)}
+//                     sx={{
+//                       background: "linear-gradient(to right, #d4af37, #b8972e)",
+//                       color: "#fff",
+//                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+//                       "&:hover": {
+//                         background:
+//                           "linear-gradient(to right, #b8972e, #d4af37)",
+//                       },
+//                       fontSize: "0.7rem",
+//                       padding: "4px 8px",
+//                     }}
+//                   >
+//                     PDF
+//                   </Button>
+//                 </Box>
+//               </Paper>
+//             ))}
+//           </Box>
+//         </>
+//       )}
+//     </Box>
+//   );
+// };
+
+// export default CsrList;
+
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
@@ -297,7 +817,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, Pagination } from "@mui/material";
 import secureLocalStorage from "react-secure-storage";
 import { mainRoute } from "../App";
 
@@ -353,49 +873,86 @@ const CsrList = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const [text, setText] = useState("");
+  const [meterSerialNo, setMeterSerialNo] = useState("");
+  const [csrNo, setCsrNo] = useState("");
+  const [address, setAddress] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [submittedStartDate, setSubmittedStartDate] = useState("");
+  const [submittedEndDate, setSubmittedEndDate] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const a = JSON.parse(secureLocalStorage.getItem("info"));
 
-  const debouncedText = useDebounce(text, 300);
+  const debouncedMeterSerialNo = useDebounce(meterSerialNo, 300);
+  const debouncedCsrNo = useDebounce(csrNo, 300);
+  const debouncedAddress = useDebounce(address, 300);
 
+  // Reset page to 1 when non-date filters change
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedMeterSerialNo, debouncedCsrNo, debouncedAddress]);
+
+  // Handle date filter submission
+  const handleDateSubmit = (e) => {
+    e.preventDefault();
+    setSubmittedStartDate(startDate);
+    setSubmittedEndDate(endDate);
+    setPage(1); // Reset page to 1 on date submission
+  };
+
+  // Fetch data when filters or page change
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(
-          `${window.MyApiRoute}report?Employee_Id=${a.data.Employee_Id}`
-        );
+        const res = await axios.get(`${window.MyApiRoute}report`, {
+          params: {
+            Employee_Id: a.data.Employee_Id,
+            MeterSerialNo: debouncedMeterSerialNo,
+            CSr_NO: debouncedCsrNo,
+            Address: debouncedAddress,
+            startDate: submittedStartDate,
+            endDate: submittedEndDate,
+            page,
+            limit: 100,  
+          },
+        });
         setData(res.data);
+        setTotalPages(res.data.totalPages || 1);
       } catch (err) {
         console.error("Error fetching data:", err);
-        setError("Failed to load data. Please try again later.");
-        setData([]);
+        setError(
+          err.response?.data?.error ||
+            "Failed to load data. Please try again later."
+        );
+        setData({ message: [] });
       }
     };
 
     fetchData();
-  }, []);
+  }, [
+    debouncedMeterSerialNo,
+    debouncedCsrNo,
+    debouncedAddress,
+    submittedStartDate,
+    submittedEndDate,
+    page,
+    a.data.Employee_Id,
+  ]);
 
   const handleEdit = (row, index) => {
     navigate(`${mainRoute}/csrEdit`, { state: row });
   };
 
-  // const handlePDF = (data) => {
-  //   navigate(`${mainRoute}/csrformdownload`, { state: { data } });
-  // };
-
   const handlePDF = (data) => {
-  const csrNo = data.CSr_NO;
-  const url = `${mainRoute}/csrformdownload?csr=${csrNo}`;
-  window.open(url, "_blank"); // opens in new tab
-};
-
-
-  const handleFilterChange = (e) => {
-    setText(e.target.value);
+    const csrNo = data.CSr_NO;
+    const url = `${mainRoute}/csrformdownload?csr=${csrNo}`;
+    window.open(url, "_blank");
   };
 
-  const filteredData = data?.message
-    ?.filter((product) => product.MeterSerialNo?.toLowerCase().includes(debouncedText.toLowerCase())) || [];
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
 
   if (data === null && !error) {
     return (
@@ -454,30 +1011,218 @@ const CsrList = () => {
         p: { xs: 1, sm: 2 },
       }}
     >
-      <Box
+      {/* <Box
         sx={{
           display: "flex",
+          flexWrap: "wrap",
           justifyContent: "center",
           p: { xs: 1, sm: 2 },
           backgroundColor: "#fff",
           borderRadius: "8px",
           boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
           mb: 2,
+          gap: 1,
         }}
       >
         <Box sx={{ width: { xs: "100%", sm: "300px" } }}>
           <input
-            name="Meter_Serial_No"
-            onChange={handleFilterChange}
-            value={text}
+            name="MeterSerialNo"
+            onChange={(e) => setMeterSerialNo(e.target.value)}
+            value={meterSerialNo}
             className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            placeholder="Meter ID"
+            placeholder="Meter Serial No"
             style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif" }}
           />
         </Box>
-      </Box>
+        <Box sx={{ width: { xs: "100%", sm: "300px" } }}>
+          <input
+            name="CSr_NO"
+            onChange={(e) => setCsrNo(e.target.value)}
+            value={csrNo}
+            className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            placeholder="CSR No"
+            style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif" }}
+          />
+        </Box>
+        <Box sx={{ width: { xs: "100%", sm: "300px" } }}>
+          <input
+            name="Address"
+            onChange={(e) => setAddress(e.target.value)}
+            value={address}
+            className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            placeholder="Address"
+            style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif" }}
+          />
+        </Box>
+        <Box sx={{ width: { xs: "100%", sm: "300px" } }}>
+          <input
+            type="date"
+            name="startDate"
+            onChange={(e) => setStartDate(e.target.value)}
+            value={startDate}
+            className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            placeholder="Start Date"
+            style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif" }}
+          />
+        </Box>
+        <Box sx={{ width: { xs: "100%", sm: "300px" } }}>
+          <input
+            type="date"
+            name="endDate"
+            onChange={(e) => setEndDate(e.target.value)}
+            value={endDate}
+            className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            placeholder="End Date"
+            style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif" }}
+          />
+        </Box>
+        <Box
+          sx={{
+            width: { xs: "100%", sm: "300px" },
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            variant="contained"
+            onClick={handleDateSubmit}
+            sx={{
+              background: "linear-gradient(to right, #1a3c34, #2e5e54)",
+              color: "#fff",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              "&:hover": {
+                background: "linear-gradient(to right, #2e5e54, #1a3c34)",
+              },
+              fontFamily: "'Roboto', 'Helvetica', sans-serif",
+              fontSize: { xs: "0.8rem", sm: "0.875rem" },
+              padding: { xs: "6px 12px", sm: "8px 16px" },
+              width: "100%",
+            }}
+          >
+            Submit
+          </Button>
+            <Box sx={{ width: { xs: "100%", sm: "300px" } }}>
+        
+        
+          <p  className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+           
+            style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif" }}>
+            
+            Total Report : {data?.totalRecords}
+            </p> 
+          
+        </Box>
+        </Box>
+      </Box> */}
 
-      {filteredData.length === 0 ? (
+      <Box
+  sx={{
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: { xs: "center", sm: "space-between" },
+    p: { xs: 1, sm: 2 },
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+    mb: 2,
+    gap: { xs: 1, sm: 2 },
+  }}
+>
+  <Box sx={{ width: { xs: "100%", sm: "min(100%, 300px)", md: "min(100%, 400px)" } }}>
+    <input
+      name="MeterSerialNo"
+      onChange={(e) => setMeterSerialNo(e.target.value)}
+      value={meterSerialNo}
+      className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+      placeholder="Meter Serial No"
+      style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif", fontSize: "0.875rem" }}
+    />
+  </Box>
+  <Box sx={{ width: { xs: "100%", sm: "min(100%, 300px)", md: "min(100%, 400px)" } }}>
+    <input
+      name="CSr_NO"
+      onChange={(e) => setCsrNo(e.target.value)}
+      value={csrNo}
+      className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+      placeholder="CSR No"
+      style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif", fontSize: "0.875rem" }}
+    />
+  </Box>
+  <Box sx={{ width: { xs: "100%", sm: "min(100%, 300px)", md: "min(100%, 400px)" } }}>
+    <input
+      name="Address"
+      onChange={(e) => setAddress(e.target.value)}
+      value={address}
+      className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+      placeholder="Address"
+      style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif", fontSize: "0.875rem" }}
+    />
+  </Box>
+  <Box sx={{ width: { xs: "100%", sm: "min(100%, 300px)", md: "min(100%, 400px)" } }}>
+    <input
+      type="date"
+      name="startDate"
+      onChange={(e) => setStartDate(e.target.value)}
+      value={startDate}
+      className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+      placeholder="Start Date"
+      style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif", fontSize: "0.875rem" }}
+    />
+  </Box>
+  <Box sx={{ width: { xs: "100%", sm: "min(100%, 300px)", md: "min(100%, 400px)" } }}>
+    <input
+      type="date"
+      name="endDate"
+      onChange={(e) => setEndDate(e.target.value)}
+      value={endDate}
+      className="border-2 py-1.5 px-4 w-full border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+      placeholder="End Date"
+      style={{ fontFamily: "'Roboto', 'Helvetica', sans-serif", fontSize: "0.875rem" }}
+    />
+  </Box>
+  <Box
+    sx={{
+      width: { xs: "100%", sm: "min(100%, 300px)", md: "min(100%, 400px)" },
+      display: "flex",
+      alignItems: "center",
+    }}
+  >
+    <Button
+      variant="contained"
+      onClick={handleDateSubmit}
+      sx={{
+        background: "linear-gradient(to right, #1a3c34, #2e5e54)",
+        color: "#fff",
+        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        "&:hover": {
+          background: "linear-gradient(to right, #2e5e54, #1a3c34)",
+        },
+        fontFamily: "'Roboto', 'Helvetica', sans-serif",
+        fontSize: { xs: "0.75rem", sm: "0.875rem" },
+        padding: { xs: "6px 12px", sm: "8px 16px" },
+        width: "100%",
+      }}
+    >
+      Submit
+    </Button>
+  </Box>
+  <Box sx={{ width: { xs: "100%", sm: "min(100%, 300px)", md: "min(100%, 400px)" } }}>
+    <Box
+      className=" py-1.5 px-4 w-full  "
+      sx={{
+        fontFamily: "'Roboto', 'Helvetica', sans-serif",
+        fontSize: { xs: "0.75rem", sm: "0.875rem" },
+        display: "flex",
+        alignItems: "center",
+        color: "#374151", // Matches input text color (gray-700)
+      }}
+    >
+      Total Report: {data?.totalRecords}
+    </Box>
+  </Box>
+</Box>
+
+      {data?.message?.length === 0 ? (
         <Box
           sx={{
             display: "flex",
@@ -520,29 +1265,58 @@ const CsrList = () => {
                         position: "sticky",
                         left: 0,
                         zIndex: 100,
-                        background: "linear-gradient(to right, #1a3c34, #2e5e54)",
+                        background:
+                          "linear-gradient(to right, #1a3c34, #2e5e54)",
                       }}
                     >
                       Sr No.
                     </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 120 }}>Meter Id</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 150 }}>Customer Name</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 150 }}>Employee Name</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 130 }}>Customer Mobile No.</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 100 }}>Flat No</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 100 }}>Address</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 180 }}>Complaint Reported By CRM</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 200 }}>Problem Identified By Service Engineer</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 180 }}>Problem Rectified By Service Engineer</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 180 }}>Attended Engineer Remarks</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 200 }}>Customer Remarks</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 150 }}>Date & Time</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 100 }}>Edit</StyledTableCell>
-                    <StyledTableCell align="center" sx={{ minWidth: 100 }}>PDF</StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 100 }}>
+                      Edit
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 100 }}>
+                      PDF
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 120 }}>
+                      Meter Id
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 150 }}>
+                      Customer Name
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 150 }}>
+                      Employee Name
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 130 }}>
+                      Customer Mobile No.
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 100 }}>
+                      Flat No
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 100 }}>
+                      Address
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 180 }}>
+                      Complaint Reported By CRM
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 200 }}>
+                      Problem Identified By Service Engineer
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 180 }}>
+                      Problem Rectified By Service Engineer
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 180 }}>
+                      Attended Engineer Remarks
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 200 }}>
+                      Customer Remarks
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ minWidth: 150 }}>
+                      Date & Time
+                    </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {filteredData.map((row, index) => (
+                  {data?.message?.map((row, index) => (
                     <StyledTableRow key={index}>
                       <StyledTableCell
                         align="center"
@@ -555,30 +1329,18 @@ const CsrList = () => {
                       >
                         {row.CSr_NO || "-"}
                       </StyledTableCell>
-                      <StyledTableCell align="center">{row.MeterSerialNo || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.Customer_Name || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.EmployeeName || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.MobileNo || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.FlatNo || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.Address || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.ComplaintReportedBy || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.ProblemIdentifiedByServiceEngineer || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.ProblemRectifiedByServiceEngineer || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.AttendedEngineerRemarks || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">{row.CustomerRemarks || "-"}</StyledTableCell>
-                      <StyledTableCell align="center">
-                        {new Date(row.createdAt).toLocaleString()}
-                      </StyledTableCell>
                       <StyledTableCell align="center">
                         <Button
                           variant="contained"
                           onClick={() => handleEdit(row, index)}
                           sx={{
-                            background: "linear-gradient(to right, #1a3c34, #2e5e54)",
+                            background:
+                              "linear-gradient(to right, #1a3c34, #2e5e54)",
                             color: "#fff",
                             boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                             "&:hover": {
-                              background: "linear-gradient(to right, #2e5e54, #1a3c34)",
+                              background:
+                                "linear-gradient(to right, #2e5e54, #1a3c34)",
                             },
                             fontSize: { xs: "0.7rem", md: "0.875rem" },
                             padding: { xs: "4px 8px", md: "6px 12px" },
@@ -592,11 +1354,13 @@ const CsrList = () => {
                           variant="contained"
                           onClick={() => handlePDF(row)}
                           sx={{
-                            background: "linear-gradient(to right, #d4af37, #b8972e)",
+                            background:
+                              "linear-gradient(to right, #d4af37, #b8972e)",
                             color: "#fff",
                             boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                             "&:hover": {
-                              background: "linear-gradient(to right, #b8972e, #d4af37)",
+                              background:
+                                "linear-gradient(to right, #b8972e, #d4af37)",
                             },
                             fontSize: { xs: "0.7rem", md: "0.875rem" },
                             padding: { xs: "4px 8px", md: "6px 12px" },
@@ -605,15 +1369,68 @@ const CsrList = () => {
                           PDF
                         </Button>
                       </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.MeterSerialNo || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.Customer_Name || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.EmployeeName || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.MobileNo || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.FlatNo || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.Address || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.ComplaintReportedBy || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.ProblemIdentifiedByServiceEngineer || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.ProblemRectifiedByServiceEngineer || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.AttendedEngineerRemarks || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.CustomerRemarks || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {new Date(row.createdAt).toLocaleString()}
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+              <Pagination
+                count={totalPages}
+                page={page}
+                onChange={handlePageChange}
+                sx={{
+                  "& .MuiPaginationItem-root": {
+                    fontFamily: "'Roboto', 'Helvetica', sans-serif",
+                    color: "#1a3c34",
+                  },
+                  "& .Mui-selected": {
+                    background: "linear-gradient(to right, #1a3c34, #2e5e54)",
+                    color: "#fff",
+                  },
+                }}
+              />
+            </Box>
           </Box>
 
           <Box sx={{ display: { xs: "block", md: "none" }, p: 1 }}>
-            {filteredData.map((row, index) => (
+            {data?.message?.map((row, index) => (
               <Paper
                 key={index}
                 sx={{
@@ -658,22 +1475,34 @@ const CsrList = () => {
                     <strong>Complaint:</strong> {row.ComplaintReportedBy || "-"}
                   </Typography>
                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
-                    <strong>Problem Identified:</strong> {row.ProblemIdentifiedByServiceEngineer || "-"}
+                    <strong>Problem Identified:</strong>{" "}
+                    {row.ProblemIdentifiedByServiceEngineer || "-"}
                   </Typography>
                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
-                    <strong>Problem Rectified:</strong> {row.ProblemRectifiedByServiceEngineer || "-"}
+                    <strong>Problem Rectified:</strong>{" "}
+                    {row.ProblemRectifiedByServiceEngineer || "-"}
                   </Typography>
                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
-                    <strong>Engineer Remarks:</strong> {row.AttendedEngineerRemarks || "-"}
+                    <strong>Engineer Remarks:</strong>{" "}
+                    {row.AttendedEngineerRemarks || "-"}
                   </Typography>
                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
-                    <strong>Customer Remarks:</strong> {row.CustomerRemarks || "-"}
+                    <strong>Customer Remarks:</strong>{" "}
+                    {row.CustomerRemarks || "-"}
                   </Typography>
                   <Typography sx={{ fontSize: "0.8rem", color: "#333" }}>
-                    <strong>Date:</strong> {new Date(row.createdAt).toLocaleString()}
+                    <strong>Date:</strong>{" "}
+                    {new Date(row.createdAt).toLocaleString()}
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", gap: 1, mt: 1, justifyContent: "flex-end" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    mt: 1,
+                    justifyContent: "flex-end",
+                  }}
+                >
                   <Button
                     variant="contained"
                     onClick={() => handleEdit(row, index)}
@@ -682,7 +1511,8 @@ const CsrList = () => {
                       color: "#fff",
                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                       "&:hover": {
-                        background: "linear-gradient(to right, #2e5e54, #1a3c34)",
+                        background:
+                          "linear-gradient(to right, #2e5e54, #1a3c34)",
                       },
                       fontSize: "0.7rem",
                       padding: "4px 8px",
@@ -698,7 +1528,8 @@ const CsrList = () => {
                       color: "#fff",
                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                       "&:hover": {
-                        background: "linear-gradient(to right, #b8972e, #d4af37)",
+                        background:
+                          "linear-gradient(to right, #b8972e, #d4af37)",
                       },
                       fontSize: "0.7rem",
                       padding: "4px 8px",
@@ -709,6 +1540,23 @@ const CsrList = () => {
                 </Box>
               </Paper>
             ))}
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+              <Pagination
+                count={totalPages}
+                page={page}
+                onChange={handlePageChange}
+                sx={{
+                  "& .MuiPaginationItem-root": {
+                    fontFamily: "'Roboto', 'Helvetica', sans-serif",
+                    color: "#1a3c34",
+                  },
+                  "& .Mui-selected": {
+                    background: "linear-gradient(to right, #1a3c34, #2e5e54)",
+                    color: "#fff",
+                  },
+                }}
+              />
+            </Box>
           </Box>
         </>
       )}

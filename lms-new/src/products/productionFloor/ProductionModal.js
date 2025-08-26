@@ -97,7 +97,7 @@ const ProductionModal = ({ open1, setOpen1, api, selectedItem }) => {
     setOpen1({ ...open1, open: false });
   };
   const handleSubmit = () => {
-    console.log({ open1 });
+   // console.log({ open1 });
     setLoading(true);
     let from;
     if (open1.from === "defective") {
@@ -119,7 +119,7 @@ const ProductionModal = ({ open1, setOpen1, api, selectedItem }) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         api();
         alert(res.data.message);
       })

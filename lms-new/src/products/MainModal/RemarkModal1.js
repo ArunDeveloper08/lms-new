@@ -8,13 +8,13 @@ import { useSelector } from "react-redux";
 const RemarkModal1 = ({ modal, setModal, api, open }) => {
   const [title, setTitle] = useState("");
   const { selectedItem } = useSelector((state) => state.itemReducer);
-  console.log({ open });
+  //console.log({ open });
   const handleClose = () => {
     setModal(false);
   };
   const handleSubmit = () => {
     const info = JSON.parse(secureLocalStorage.getItem("info")).data;
-    console.log(open);
+ //   console.log(open);
     axios
       .put(
         window.MyApiRoute +

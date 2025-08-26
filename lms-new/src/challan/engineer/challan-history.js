@@ -64,14 +64,36 @@ const ChallanHistory = () => {
       },
     });
     try {
-      const { data } = await axios.post(url, userInfo);
+      const { data : apiResponse} = await axios.post(url, userInfo);
 
       // const statusFormatting = data.Data.filter((item) => {
       //   if (status === "" || status === undefined) return true;
       //   return item.Status === status;
       // });
 
-      setData(data.Data);
+
+      const unsortedData = apiResponse.Data;
+
+      // 2. Check if the data is a valid array before trying to sort
+      if (Array.isArray(unsortedData)) {
+        // 3. Create a sorted copy of the array
+        const sortedData = [...unsortedData].sort((a, b) => {
+          // Convert challan numbers (which are strings) to actual numbers for correct sorting
+          const numA = parseInt(a.challanNumber, 10) || 0;
+          const numB = parseInt(b.challanNumber, 10) || 0;
+          // Subtracting them gives the correct numeric sort order
+          return numA - numB;
+        });
+        
+        // 4. Set the component's state with the newly sorted data
+        setData(sortedData);
+
+      } else {
+        // If the response is not an array, set state to empty to avoid errors
+        setData([]);
+      }
+      
+     // setData(data.Data);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -115,39 +137,7 @@ const handleOnExport = (data) => {
   console.log("Excel file exported successfully.");
 };
 
-  //  const handleOnExport = (data) => {
-  //     const newData = data?.map((item, index) => {
-  //       const {
-  //         id,
-  //         inTime,
-  //         outTime,
-  //         createdAt,
-  //         updatedAt,
-  //         recievedBy,
-  //         outFlag,
-  //         inFlag,
-  //         ActivityLog,
-  //         issuedBy,
-  //         createdBy,
-  //         ...rest
-  //       } = item;
-  //       return rest;
-  //     });
 
-  //      console.log("newData" , newData)
-  //     // var wb = XLSX.utils.book_new(),
-  //     //   ws = XLSX.utils.json_to_sheet(newData);
-  
-  //     // XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
-  //     // XLSX.writeFile(
-  //     //   wb,
-  //     //   `Excel-${new Date().toDateString("en-GB", {
-  //     //     day: "numeric",
-  //     //     month: "short",
-  //     //     year: "numeric",
-  //     //   })}.xlsx`
-  //     // );
-  //   };
   return (
     <section>
       <div className="flex justify-around items-center mt-2 gap-x-1">

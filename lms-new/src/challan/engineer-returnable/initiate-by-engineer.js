@@ -63,12 +63,12 @@ const InitiateByDealer = () => {
         });
         try {
             const { data } = await axios.post(url, userInfo);
-            console.log(data);
+          //  console.log(data);
             const statusFormatting = data.Data.filter(item => {
                 if (status === "" || status === undefined) return true;
                 return item.Status === status;
             });
-            console.log(statusFormatting);
+         //   console.log(statusFormatting);
             setData(statusFormatting);
             setLoading(false);
         } catch (error) {

@@ -13,7 +13,7 @@ const DownloadChallanPdf = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const pdfExportComponent = useRef(null);
-  console.log(challanNumber, search);
+ // console.log(challanNumber, search);
   const [companyName, setCompanyName] = useState("PES Electrical Pvt Ltd");
   useEffect(() => {
     const apiCall = async () => {
@@ -39,7 +39,7 @@ const DownloadChallanPdf = () => {
   );
   // // console.log({ statusOfChallan });
   const allRemark = JSON.parse(data?.challanDetails?.[0].Remarks || "{}");
-  console.log(">>", allRemark[allRemark.length - 1]?.remark);
+  //console.log(">>", allRemark[allRemark.length - 1]?.remark);
   return loading ? (
     <div className="h-full w-full grid place-items-center">
       <p>Loading Content</p>

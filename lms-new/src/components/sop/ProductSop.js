@@ -48,7 +48,7 @@ const ProductCeoSop = () => {
         `${window.MyApiRoute}sop/get?productType=${value || ""}`
       );
       const apiContent = JSON.parse(response.data.data[0].sop);
-      console.log(JSON.parse(response.data.data[0].sop));
+    //  console.log(JSON.parse(response.data.data[0].sop));
       setEditorContent(apiContent);
       setInitialContent(apiContent);
     } catch (error) {

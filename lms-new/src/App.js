@@ -392,7 +392,7 @@
 
 // export default App;
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Login from "./components/login";
 import Main from "./components/Main";
 import Add from "./components/Add";
@@ -482,18 +482,68 @@ import EngineerNewAcceptProduct from "./challan/engineer/accept-product/accept-p
 import EngineerNewChallanHistory from "./challan/engineer/challan-history.js";
 import Consumables from "./components/consumables/page.js";
 import CreateEngineerToolChallan from "./components/Tools/CreateEngineerToolChallan.js";
+import { useEffect } from "react";
 
 export const mainRoute = "/erp";
 
 function App() {
   const data = secureLocalStorage.getItem("selectedItem");
+  
   const dispatch = useDispatch();
+   const location = useLocation();
+   const navigate = useNavigate();
 
   if (data) {
     dispatch(selectItem(data));
   }
 
   window.MyApiRoute = "https://www.pesonline12.in/meterinstallation/";
+
+ 
+
+  useEffect(() => {
+    const userInfo = JSON.parse(secureLocalStorage.getItem("info"))?.data;
+    if (userInfo && location.pathname === `${mainRoute}/`) {
+      navigate(`${mainRoute}/home`, { replace: true });
+    }
+    console.log("hii")
+  }, [location , navigate]);
+
+
+// useEffect(() => {
+//   const info = secureLocalStorage.getItem("info");
+//   const isLoggedIn = document.cookie.includes("logged_in=true");
+
+//   const userInfo = info ? JSON.parse(info)?.data : null;
+
+//   const onLoginPage = location.pathname === `${mainRoute}/`;
+//   const onHomePage = location.pathname.startsWith(`${mainRoute}/home`);
+
+//   if (isLoggedIn && userInfo && onLoginPage) {
+//     // ✅ If logged in and on login page, go to home
+//     navigate(`${mainRoute}/home`, { replace: true });
+//   } else if ((!isLoggedIn || !userInfo) && onHomePage) {
+//     // 🚫 If not logged in but trying to access home, go to login
+//     navigate(`${mainRoute}/`, { replace: true });
+//   }
+// }, [location, navigate]);
+
+//  useEffect(() => {
+//     const info = localStorage.getItem('info');
+//     const isLoggedIn = document.cookie.includes('logged_in=true');
+//     const userInfo = info ? JSON.parse(info)?.data : null;
+
+//     const onLoginPage = location.pathname === `${mainRoute}/`;
+//     const onHomePage = location.pathname.startsWith(`${mainRoute}/home`);
+
+//     if (isLoggedIn && userInfo && onLoginPage) {
+//       navigate(`${mainRoute}/home`, { replace: true });
+//     } else if ((!isLoggedIn || !userInfo) && onHomePage) {
+//       navigate(`${mainRoute}/`, { replace: true });
+//     }
+//   }, [location, navigate]);
+
+
 
   return (
     <>

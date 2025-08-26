@@ -237,6 +237,7 @@ const ViewAllChallan = () => {
           {
             dealerName: challan.dealerName,
             dealerId: challan.dealerId,
+            
             ...userData,
           }
         )

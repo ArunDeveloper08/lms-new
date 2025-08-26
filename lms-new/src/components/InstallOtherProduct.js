@@ -378,7 +378,7 @@ const InstallOtherProduct = () => {
       (item) => item.Meter_Serial_No === formData.Meter_Serial_No
     );
     if (isPresent) {
-      console.log("Update old");
+    //  console.log("Update old");
       setLoading(true);
       axios
         .put(
@@ -395,7 +395,7 @@ const InstallOtherProduct = () => {
         })
         .catch((err) => alert(err.response.data.message));
     } else {
-      console.log("Add New");
+    //  console.log("Add New");
       setLoading(true);
       axios
         .post(
@@ -413,14 +413,14 @@ const InstallOtherProduct = () => {
         .catch((err) => alert(err.response.data.message));
     }
   };
-  console.log(formData);
+ 
   return (
     <>
       <p className="text-4xl text-center mb-10 font-semibold">
         Install Product
       </p>
-      <div className="w-4/5 mx-auto">
-        <div className="grid gap-y-5 md:gap-x-10 grid-cols-1 md:grid-cols-2">
+      <div className="w-4/5 mx-auto ">
+        <div className="mb-14 grid gap-y-5 md:gap-x-10 grid-cols-1 md:grid-cols-2">
 
           <Autocomplete
             onChange={(e, f) => {
@@ -547,7 +547,7 @@ const InstallOtherProduct = () => {
               </div>
               <Button
                 onClick={handleSubmit}
-                className="md:col-span-2"
+                className="  md:col-span-2 "
                 disabled={srNoList.loading || site.loading}
                 variant="contained"
               >

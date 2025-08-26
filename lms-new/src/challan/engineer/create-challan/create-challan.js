@@ -28,6 +28,7 @@ import SingleChallan from "./single-challan";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
+import { mainRoute } from "../../../App";
 
 const CreateChallan = () => {
   const [modal, setModal] = useState(false);
@@ -69,11 +70,11 @@ const CreateChallan = () => {
     const confirm = window.confirm("Are you sure you want to remove the item?");
     if (confirm) {
       await deleteItem(product);
-      console.log("Removing item ", product);
+      //console.log("Removing item ", product);
     }
   };
   const deleteChallan = async (challan) => {
-    console.log("delete", challan);
+   // console.log("delete", challan);
     const confirm = window.confirm(
       "Are you sure you want to remove the Challan?"
     );
@@ -105,7 +106,7 @@ const CreateChallan = () => {
           api();
 
           const newTab = window.open(
-            `/downloadengineerchallanpdf/${res.data?.challanNumber}?type=externalReturnableChallan`,
+            `${mainRoute}/downloadengineerchallanpdf/${res.data?.challanNumber}?type=externalReturnableChallan`,
             "_blank"
             // `/thirdpartychallanpdf/${res.data?.challanNumber}?type=thirdPartyReturnableChallan&SiteName=${challan.dealerName}`,
             // "_blank"

@@ -131,14 +131,14 @@ const DealerModal = ({ open, setOpen, checked }) => {
       .get(window.MyApiRoute + "dealer/get")
       .then((res) => {
         setDealers(res.data.details);
-        console.log(res.data.details);
+      //  console.log(res.data.details);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
   const handleChange = (item) => {
-    console.log("dealerId", item);
+  //  console.log("dealerId", item);
     axios
       .get(window.MyApiRoute + `dealer/getone?dealerId=${item}`)
       .then((res) => {

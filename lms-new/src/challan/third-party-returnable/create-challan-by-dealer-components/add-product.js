@@ -260,7 +260,7 @@ function AddProduct({ addProductModal, setAddProductModal, api }) {
           color="success"
         >
           {loading ? "Submitting" : "Submit"}
-          {/* Submit */}
+         
         </Button>
       </DialogActions>
     </Dialog>

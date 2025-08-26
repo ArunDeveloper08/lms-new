@@ -46,7 +46,7 @@ const ProductionModal2 = ({ opens, setOpens, checkedItems }) => {
     setOpen(true);
   };
 
-  console.log("checkedItems", checkedItems);
+ // console.log("checkedItems", checkedItems);
   return (
     <>
       <div>
@@ -106,9 +106,9 @@ const ProductionModal2 = ({ opens, setOpens, checkedItems }) => {
                 <TableBody>
                   {checkedItems &&
                     checkedItems.map((item, index) => {
-                      console.log("item", item);
+                    //  console.log("item", item);
                       const activity = JSON.parse(item.ActivityLog);
-                      console.log(activity);
+                   //   console.log(activity);
                       return (
                         <>
                           <StyledTableRow>

@@ -209,6 +209,7 @@ import { useNavigate } from "react-router-dom";
 import CheckedProductsDefected from "./CheckedProductsDefected";
 import  secureLocalStorage  from  "react-secure-storage";
 import { mainRoute } from "../../App";
+import * as XLSX from "xlsx";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -334,6 +335,34 @@ const DefectedProduct = () => {
   const handleClose = () => {
     setRemarkModalOpen(false);
   };
+
+
+   const excelData =
+    data &&
+    data?.map((item) => {
+      return {
+        Product_Sr_No: item.Meter_Serial_No,
+        Created_At: item.createdAt,
+        Category: item.Category,
+        challanNumber: item.challanNumber,
+        Job_Card_No: item.Job_Card_No,
+      };
+    });
+
+    const downloadExcel = (excelData) => {
+      var wb = XLSX.utils.book_new(),
+        ws = XLSX.utils.json_to_sheet(excelData);
+  
+      XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+      XLSX.writeFile(
+        wb,
+        `Defective-Excel-${new Date().toDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}.xlsx`
+      );
+    };
 
   return (
     <>
@@ -475,6 +504,16 @@ const DefectedProduct = () => {
     <option value="DESC">New to Old</option>
     <option value="ASC">Old to New</option>
   </select>
+
+      {(info.data.Designation === "storekeeper" || info.data.Designation === "CEO" ) && (
+        <Button
+          variant="contained"
+          onClick={() => downloadExcel(excelData)}
+          sx={{ width: { xs: "100%", sm: "auto" } }}
+        >
+          Excel
+        </Button>
+      )}
 </div>
 <TableContainer sx={{ maxHeight: 350, paddingY: 0 }} component={Paper}>
   <Table stickyHeader aria-label="sticky table">

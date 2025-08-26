@@ -8,13 +8,13 @@ const SimInStoreDialog = ({ open, setOpen, api }) => {
     const [ title, setTitle ] = useState("")
     const info = JSON.parse(secureLocalStorage.getItem("info")).data;
     const isStoreKeeper = info.Designation === "storekeeper";
-    console.log({ isStoreKeeper })
+   // console.log({ isStoreKeeper })
     const handleClose = () => {
         setOpen({ ...open, open: false });
     };
     const handleSubmit = () => {
         if (isStoreKeeper) {
-            console.log(open)
+          //  console.log(open)
             axios.put(window.MyApiRoute + "sim/update?check=toRecieve", { remark: title, ...info, ...open.value }).then(res => (
                 // console.log(res.data),
                 api(),

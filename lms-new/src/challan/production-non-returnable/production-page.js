@@ -84,7 +84,7 @@ const ChallanHistory = () => {
       setLoading(false);
     }
   };
- console.log("data",data)
+// console.log("data",data)
   return (
     <section>
       <div className="flex justify-around items-center mt-2 gap-x-1">

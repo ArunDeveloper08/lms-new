@@ -334,7 +334,7 @@ const ProductionChallanTable = ({ item, actions, challanUrl, type, nop }) => {
     window.open(url, "_blank");
   };
 
-  console.log("hii");
+ // console.log("hii");
   return (
     <div className="border-2 p-2 shadow-md">
       <TableContainer component={Paper}>

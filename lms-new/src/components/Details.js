@@ -92,9 +92,26 @@ const Details = () => {
   const [open, setOpen] = useState(false);
   const a = JSON.parse(secureLocalStorage.getItem("info"));
 
-  useEffect(() => {
-    console.log("Screen Width:", window.innerWidth);
-  }, []);
+  // useEffect(() => {
+  //   console.log("Screen Width:", window.innerWidth);
+  // }, []);
+  const handleLogout = () => {
+    // Clear session data
+    // localStorage.removeItem('info');
+    // localStorage.removeItem('Employee_Id');
+    // document.cookie = 'logged_in=; path=/; max-age=0';
+
+    // // Notify WebView of logout
+    // if (window.ReactNativeWebView) {
+    //   window.ReactNativeWebView.postMessage(JSON.stringify({
+    //     type: 'LOGOUT',
+    //   }));
+    // }
+      secureLocalStorage.removeItem("info")
+
+    navigate(`${mainRoute}/`, { replace: true });
+  };
+
     if (
     normalizePath(location.pathname) === normalizePath(mainRoute) ||
     !a
@@ -105,7 +122,7 @@ const Details = () => {
     !(location.pathname === `${mainRoute}`) &&
     a && (
       <>
-        <div className="flex flex-col sm:flex-row py-2 px-3 sm:px-6 justify-between items-center gap-2 sm:gap-6 bg-gradient-to-b from-white to-gray-100 shadow-lg rounded-xl border border-gray-200 w-full">
+        <div className="flex flex-col sm:flex-row py-2 px-3 sm:px-6 justify-between items-center gap-2 sm:gap-6 bg-gradient-to-b from-white to-gray-100 shadow-lg rounded-xl border border-gray-200 w-full pt-5">
           {/* User Info & Portal Info */}
           <div className="flex flex-row flex-wrap sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
             {/* Admin/Employee Badge - Hidden on Mobile */}
@@ -130,11 +147,11 @@ const Details = () => {
             <div className="w-full sm:w-auto flex justify-between sm:justify-start items-center">
               <p className="text-xs sm:text-sm md:text-base font-medium text-gray-800 font-serif text-left sm:text-left">
                 <span className="font-bold text-gray-900">Name:</span>{" "}
-                {a.data.name.toUpperCase()}
+                {a?.data?.name.toUpperCase()}
               </p>
               <p className="text-xs sm:hidden font-medium text-gray-800 font-serif text-right">
                 <span className="font-bold text-blue-600">Designation:</span>{" "}
-                {a.data.Designation.toUpperCase()}
+                {a?.data?.Designation.toUpperCase()}
               </p>
             </div>
 
@@ -144,15 +161,18 @@ const Details = () => {
                 PORTAL:
               </p>
               <p className="text-xs sm:text-sm md:text-base font-medium text-gray-800 font-serif truncate">
-                {a.data.Designation.toUpperCase()}
+                {a?.data?.Designation.toUpperCase()}
               </p>
             </div>
           </div>
 
           {/* Action Buttons */}
           <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 sm:gap-4 w-full sm:w-auto mt-2 sm:mt-0">
-            {/* S.O.P */}
-            <p
+
+            {
+              a?.data?.Designation != "engineer" && (
+                <>
+                    <p
               role="button"
               tabIndex={0}
               onClick={() => navigate(`${mainRoute}/sop`)}
@@ -160,7 +180,7 @@ const Details = () => {
                 e.key === "Enter" && navigate(`${mainRoute}/sop`)
               }
               className={`py-1.5 px-3 text-xs sm:text-sm md:text-base font-semibold text-white text-center rounded-lg cursor-pointer transition-transform transform hover:scale-105 duration-300 shadow-md ${
-                a.isAdmin
+                a?.isAdmin
                   ? "bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600"
                   : "bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
               } min-w-[90px]`}
@@ -184,12 +204,19 @@ const Details = () => {
             >
               Product SOP
             </p>
+                
+                </>
+              )
+            }
+            {/* S.O.P */}
+        
 
             {/* Logout Button */}
             <Button
               onClick={() => {
-                navigate(`${mainRoute}`);
-                secureLocalStorage.clear();
+                // navigate(`${mainRoute}`);
+                // secureLocalStorage.clear();
+                handleLogout()
               }}
               sx={{
                 minWidth: "90px",

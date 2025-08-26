@@ -643,7 +643,8 @@ const EngChallanActions = ({ item, actions }) => {
               <StyledTableCell
                 // sx={{ paddingX: 0, minWidth: 200, fontWeight: 800 }}
                 className="min-w-[180px]"
-                align="center">
+                align="center"
+              >
                 <p className="flex flex-col">
                   <span> Challan No: {item.challanNumber}</span>
                   <span>
@@ -653,44 +654,52 @@ const EngChallanActions = ({ item, actions }) => {
               </StyledTableCell>
               <StyledTableCell
                 className="px-0 w-[160px] truncate"
-                align="center">
+                align="center"
+              >
                 P Name
               </StyledTableCell>
               <StyledTableCell
                 sx={{ paddingX: 0, minWidth: 100 }}
-                align="center">
+                align="center"
+              >
                 Serial No.
               </StyledTableCell>
               <StyledTableCell
                 sx={{ paddingX: 0, minWidth: 100 }}
-                align="center">
+                align="center"
+              >
                 In Leiu
               </StyledTableCell>
 
               <StyledTableCell
                 sx={{ paddingX: 0, minWidth: 200 }}
-                align="center">
+                align="center"
+              >
                 Send By Store
               </StyledTableCell>
               <StyledTableCell
                 sx={{ paddingX: 0, minWidth: 200 }}
-                align="center">
+                align="center"
+              >
                 Accepted By Eng.
               </StyledTableCell>
               <StyledTableCell
                 sx={{ paddingX: 0, minWidth: 200 }}
-                align="center">
+                align="center"
+              >
                 Send By Eng.
               </StyledTableCell>
               <StyledTableCell
                 sx={{ paddingX: 0, minWidth: 200 }}
-                align="center">
+                align="center"
+              >
                 Accepted by Store
               </StyledTableCell>
 
               <StyledTableCell
                 sx={{ paddingX: 0, minWidth: 400 }}
-                align="center">
+                align="center"
+              >
                 Activity
               </StyledTableCell>
             </TableRow>
@@ -706,13 +715,18 @@ const EngChallanActions = ({ item, actions }) => {
                       <span className="font-semibold text-lg">Closed</span>
                     ) : (
                       <>
-                        <Button
-                          variant="outlined"
-                          onClick={() => onModalOpen(product)}
-                          disabled={product.status === "close"}
-                          sx={{ marginRight: 2, textTransform: "none" }}>
-                          Other
-                        </Button>
+                        {(product.EngineerHandoverTime == "" ||
+                          product.EngineerHandoverTime == null) && (
+                          <Button
+                            variant="outlined"
+                            onClick={() => onModalOpen(product)}
+                            disabled={product.status === "close"}
+                            sx={{ marginRight: 2, textTransform: "none" }}
+                          >
+                            Other
+                          </Button>
+                        )}
+
                         <button
                           onClick={(e) => {
                             if (product.EngineerRecievingTime === null) {
@@ -721,11 +735,15 @@ const EngChallanActions = ({ item, actions }) => {
                                 "Please accept the product in Customer Site first"
                               );
                             }
-                          }}>
-                          <Checkbox
-                            onChange={() => toggleSelectedRows(product)}
-                            disabled={product.status === "close"}
-                          />
+                          }}
+                        >
+                          {(product.EngineerHandoverTime == "" ||
+                            product.EngineerHandoverTime == null) && (
+                            <Checkbox
+                              onChange={() => toggleSelectedRows(product)}
+                              disabled={product.status === "close"}
+                            />
+                          )}
                         </button>
                       </>
                     )}

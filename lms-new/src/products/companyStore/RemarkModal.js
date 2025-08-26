@@ -258,7 +258,7 @@ const RemarkModal = ({
       const siteNames = dealersData.map((dealer) => {
         return { SiteName: dealer.name };
       });
-      console.log([...sitesData, ...siteNames]);
+     // console.log([...sitesData, ...siteNames]);
       // Merge data and set in setSite
       setSite({
         isShown: true,
@@ -274,7 +274,7 @@ const RemarkModal = ({
       .get(`${window.MyApiRoute}employee/names`)
       .then((res) => {
         setEngineer(res.data.data);
-        console.log("Engineer", res.data.data);
+       // console.log("Engineer", res.data.data);
       })
       .catch((err) => console.log({ err }));
   const [challanType, setChallanType] = useState("");
@@ -359,8 +359,8 @@ const RemarkModal = ({
     // }
   }, [modal.type]);
   const handleSelect = (a, b) => {
-    console.log("b", b);
-    console.log("a", a);
+   // console.log("b", b);
+   // console.log("a", a);
     setMoreDetails((p) => ({ ...p, [a]: b }));
   };
 

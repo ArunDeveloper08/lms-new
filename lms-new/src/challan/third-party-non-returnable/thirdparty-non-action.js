@@ -275,7 +275,7 @@ const ThirdPartyNonActions = ({ item, actions }) => {
     open: false,
     data: {},
   });
-  console.log("item", item);
+ // console.log("item", item);
   useEffect(() => {
     setChallanProducts(item);
   }, [item]);
@@ -297,7 +297,7 @@ const ThirdPartyNonActions = ({ item, actions }) => {
     if (row.inTime === null) {
       return alert("Please accept the product in store First ");
     }
-    console.log("onModalOpen", row);
+   // console.log("onModalOpen", row);
     setModal({
       open: true,
       data: row,
@@ -305,7 +305,7 @@ const ThirdPartyNonActions = ({ item, actions }) => {
   };
 
   const handleSubmit = () => {
-    console.log(selectedRows, remark);
+  //  console.log(selectedRows, remark);
     axios
       .put(
         `${window.MyApiRoute}record/update?check=sendToSite`,

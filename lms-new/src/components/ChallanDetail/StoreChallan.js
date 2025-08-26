@@ -12,6 +12,7 @@ import {
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import { mainRoute } from "../../App";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -63,7 +64,7 @@ const StoreChallan = () => {
       /> */}
       <div className="flex items-center justify-around mb-2">
         <select
-          name="Status"
+          name="Status" 
           debounce={300}
           onChange={(e) => setSearch(e.target.value)}
           value={search ?? ""}
@@ -128,7 +129,7 @@ const StoreChallan = () => {
                           </StyledTableCell>
                           <StyledTableCell align="center" colSpan={1}>
                             <Link
-                              to={`/downloadengineerchallanpdf/${item.challanNumber}?type=externalReturnableChallan`}
+                              to={`${mainRoute}/downloadengineerchallanpdf/${item.challanNumber}?type=externalReturnableChallan`}
                               className="no-underline bg-sky-600 text-white border-black px-3 
                               rounded-md py-2"
                             >

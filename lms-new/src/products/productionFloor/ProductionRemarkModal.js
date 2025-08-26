@@ -24,7 +24,7 @@ const ProductionRemarkModal = ({ setOpen, api, open }) => {
         { sim: [open.value], remark: title, ...info }
       )
       .then((res) => {
-        console.log(res.data);
+       // console.log(res.data);
         api();
         alert(res.data.message);
       })

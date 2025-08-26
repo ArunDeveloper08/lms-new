@@ -43,11 +43,11 @@ const ChallanList = () => {
     const confirm = window.confirm("Are you sure you want to remove the item?");
     if (confirm) {
       await deleteItem(product);
-      console.log("Removing item ", product);
+   //   console.log("Removing item ", product);
     }
   };
   const deleteChallan = async (challan) => {
-    console.log("delete", challan);
+  //  console.log("delete", challan);
     const confirm = window.confirm(
       "Are you sure you want to remove the Challan?"
     );

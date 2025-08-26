@@ -35,6 +35,7 @@ import { Link } from "react-router-dom";
 import greenlight from "../../Image/greenlight.gif";
 import yellowlight from "../../Image/tenor.gif";
 import { mainRoute } from "../../App";
+import * as XLSX from "xlsx";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -190,58 +191,33 @@ const AllList = () => {
     setInput((p) => ({ ...p, [a]: b }));
   };
 
+  // const excelData =
+  //     data2 &&
+  //     data2?.map((item) => {
+  //       return {
+  //         Product_Sr_No: item.Meter_Serial_No,
+  //         Created_At: item.createdAt,
+  //         Category: item.Category,
+  //       };
+  //     });
+      const downloadExcel = (excelData) => {
+        var wb = XLSX.utils.book_new(),
+          ws = XLSX.utils.json_to_sheet(excelData);
+    
+        XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+        XLSX.writeFile(
+          wb,
+          `All-count-Excel-${new Date().toDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          })}.xlsx`
+        );
+      };
+
   return (
     <>
-      {/* <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 items-center justify-around pb-3">
-        <input
-          name="Meter_Serial_No"
-          debounce={300}
-          value={filter.Meter_Serial_No ?? ""}
-          onChange={(e) => handleFilterChange(e)}
-          className="border-2 py-2 px-5 w-[300px] border-gray-500 rounded"
-          placeholder="Serial Number."
-        />
-        <div
-          className={`pt-3 flex ${
-            info.Designation === "storekeeper" ? "w-1/2" : ""  
-          } px-8 pb-3 flex justify-between mt-1 h-[67px]`}
-        >
-          <select
-            name="Category"
-            debounce={300}
-            onChange={(e) => handleFilterChange(e)}
-            value={filter?.Category ?? ""}
-            className="border-2 py-2 px-5 w-[300px] border-gray-500 rounded"
-            placeholder="Serial Number"
-          >
-            <option value="">Category</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option Value="C">C</option>
-            <option value="D">D</option>
-          </select>
-          <h1 className="py-2 px-5">No. of Product : {data2?.length ?? 0 } </h1>
-        </div>
-        <Box className="w-[300px]">
-
-          <Autocomplete
-            onChange={(e, f) => onChange("dealerId", f)}
-            // onClick={(e, f) => console.log(e, f)}
-            className="flex-1 w-[300px]"
-            // disabled={loading || !siteName.loading}
-            name="selectDealer"
-            options={siteName?.map((option) => option)}
-            getOptionLabel={(option) =>
-              `${option?.name.toUpperCase()}, ID: ${option?.ID} , GST-${
-                option?.gstNumber
-              }`
-            }
-            renderInput={(params) => (
-              <TextField {...params} label="Select Dealer" />
-            )}
-          />
-        </Box>
-      </div> */}
+     
 <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 items-center justify-around pb-3 px-4 gap-3">
   <input
     name="Meter_Serial_No"
@@ -271,6 +247,16 @@ const AllList = () => {
       <option value="C">C</option>
       <option value="D">D</option>
     </select>
+   {(info.Designation === "storekeeper" || info.Designation === "CEO" ) && (
+       <Button
+         variant="contained"
+         onClick={() => downloadExcel(data2)}
+         sx={{ width: { xs: "100%", sm: "auto" } }}
+       >
+         Excel
+       </Button>
+     )}
+
     <h1 className="py-2 px-5 text-center md:text-left">No. of Product: {data2?.length ?? 0}</h1>
   </div>
     )

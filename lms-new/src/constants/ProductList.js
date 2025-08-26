@@ -23,7 +23,7 @@ export const ProductList = [
   ["Smart Three Phase Meter", "smart-3-phaseMeter"],
   ["Smart one Phase Meter", "smart-1-phaseMeter"],
   ["RF2-TTL", "RF2-TTL"],
-  ["RF2-485", "RF2-485"],
+  ["RF2-AB", "RF2-485"],
   ["Extension", "extensions"],
   ["Shifting Relay", "shiftingRelay"],
   ["Cat 6-Wire", "catSixWire"],
@@ -39,4 +39,5 @@ export const ProductList = [
   ["Elmex Wire", "elmexWire"],
   ["Dye", "Dye"],
   ["LCD DCU", "lcdDcu"],
+  ["Crystal Meter", "crystalMeter"],
 ];

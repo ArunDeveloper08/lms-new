@@ -376,7 +376,7 @@ const LandinPage = () => {
 
               <Tab
                 sx={{ fontWeight: 800, padding: 0 }}
-                label={`Unapproved`}
+                label={`Unapproved(${toolsCounts?.EngineerToStoreCount + toolsCounts?.MechanicalToStoreCount + toolsCounts?.ProductionToStoreCount + toolsCounts?.StoreToEnginnerCount  + toolsCounts?.StoreToMechanicalCount + toolsCounts?.StoreToProductionCount + toolsCounts?.StoreToRejectedCount})`}
                 value="2"
               />
               {( 
@@ -385,7 +385,7 @@ const LandinPage = () => {
                 a.data.Designation === "storekeeper") && (
                 <Tab
                   sx={{ fontWeight: 800, padding: 0 }}
-                  label={`Rejected Tool`}
+                  label={`Rejected Tool(${toolsCounts?.InDustbinCount})`}
                   value="5"
                 />
               )}

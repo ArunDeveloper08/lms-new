@@ -279,6 +279,7 @@ import AddRemark from "./AddRemark";
 import AddNewProduct from "../companyStore/AddNewProduct";
 import AddRemarkOnly from "./AddRemarkOnly";
 import  secureLocalStorage  from  "react-secure-storage";
+import * as XLSX from "xlsx";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -400,6 +401,33 @@ const Production = () => {
   const handleSubmit = () => {
     setOpen((p) => ({ ...p, open: true }));
   };
+
+
+    const excelData =
+    apiData &&
+    apiData?.map((item) => {
+      return {
+        Product_Sr_No: item.Meter_Serial_No,
+        Created_At: item.createdAt,
+        Category: item.Category,
+      };
+    });
+    const downloadExcel = (excelData) => {
+      var wb = XLSX.utils.book_new(),
+        ws = XLSX.utils.json_to_sheet(excelData);
+  
+      XLSX.utils.book_append_sheet(wb, ws, "MySheet1");
+      XLSX.writeFile(
+        wb,
+        `Production-Excel-${new Date().toDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}.xlsx`
+      );
+    };
+
+
  
   return (
     <>
@@ -452,6 +480,16 @@ const Production = () => {
     <option value="DESC">New to Old</option>
     <option value="ASC">Old to New</option>
   </select>
+
+    {(a.data.Designation === "storekeeper" || a.data.Designation === "CEO" ) && (
+      <Button
+        variant="contained"
+        onClick={() => downloadExcel(excelData)}
+        sx={{ width: { xs: "100%", sm: "auto" } }}
+      >
+        Excel
+      </Button>
+    )}
 
   <h1 className="text-center sm:text-left">No. of Products: {apiData?.length ?? 0}</h1>
 

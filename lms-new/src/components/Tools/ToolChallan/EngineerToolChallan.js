@@ -299,7 +299,7 @@ const EngineerToolChallanPdf = () => {
                   Issue To :
                 </p>
                 <p className="text-[11px] font-sans font-semibold">
-                  {data?.Name}
+                  {data.Products?.[0]?.Name}
                 </p>
               </div>
               <div className="flex">
