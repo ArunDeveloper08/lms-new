@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/erp/static/css/main.13740408.css",
-    "main.js": "/erp/static/js/main.28a41cbb.js",
+    "main.js": "/erp/static/js/main.e5f0caf1.js",
     "static/media/greenlight.gif": "/erp/static/media/greenlight.4ff19e5884e17514d569.gif",
     "static/media/tenor.gif": "/erp/static/media/tenor.d04685c9b6c2d4096098.gif",
     "index.html": "/erp/index.html"
   },
   "entrypoints": [
     "static/css/main.13740408.css",
-    "static/js/main.28a41cbb.js"
+    "static/js/main.e5f0caf1.js"
   ]
 }

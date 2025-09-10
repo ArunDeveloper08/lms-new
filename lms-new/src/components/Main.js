@@ -257,7 +257,7 @@ const Main = () => {
                   View Work
                 </button>
               )}
-              {!a?.isAdmin && (
+              {/* {!a?.isAdmin && ( */}
                 <button
                   className="bg-gradient-to-r from-teal-700 to-teal-600 text-white rounded-lg py-3 px-4 text-base font-roboto font-medium hover:from-teal-800 hover:to-teal-700 hover:ring-2 hover:ring-yellow-200 transition-all hover:scale-105 shadow-md"
                   onClick={() =>
@@ -268,15 +268,15 @@ const Main = () => {
                 >
                   MRR Form
                 </button>
-              )}
-              {!a?.isAdmin && (
+              {/* )} */}
+              {/* {!a?.isAdmin && ( */}
                 <button
                   className="bg-gradient-to-r from-teal-700 to-teal-600 text-white rounded-lg py-3 px-4 text-base font-roboto font-medium hover:from-teal-800 hover:to-teal-700 hover:ring-2 hover:ring-yellow-200 transition-all hover:scale-105 shadow-md"
                   onClick={() => navigate(`${mainRoute}/csrform`)}
                 >
                   CSR Report
                 </button>
-              )}
+              {/* )} */}
               <button
                 className="bg-gradient-to-r from-teal-700 to-teal-600 text-white rounded-lg py-3 px-4 text-base font-roboto font-medium hover:from-teal-800 hover:to-teal-700 hover:ring-2 hover:ring-yellow-200 transition-all hover:scale-105 shadow-md"
                 onClick={() => navigate(`${mainRoute}/store`)}
@@ -376,7 +376,7 @@ const Main = () => {
                 View Work
               </button>
             )}
-            {!a?.isAdmin && (
+            {/* {!a?.isAdmin && ( */}
               <button
                 className="bg-gray-200 w-[100px] py-2 rounded-md duration-500 hover:bg-black hover:text-white"
                 onClick={() =>
@@ -387,15 +387,15 @@ const Main = () => {
               >
                 MRR Form
               </button>
-            )}
-            {!a?.isAdmin && (
+             {/* )} */}
+            {/* {!a?.isAdmin && ( */}
               <button
                 onClick={() => navigate(`${mainRoute}/csrform`)}
                 className="bg-gray-200 duration-500 hover:bg-black hover:text-white py-2 w-[100px] rounded-md"
               >
                 CSR Report
               </button>
-            )}
+             {/* )} */}
             <button
               className="bg-gray-200 w-[100px] py-2 rounded-md duration-500 hover:bg-black hover:text-white"
               onClick={() => navigate(`${mainRoute}/store`)}

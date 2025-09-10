@@ -561,7 +561,13 @@ const UnapprovedTable = ({
                     if (lastRemark && typeof lastRemark.remark === 'string') {
                       const remarkText = lastRemark.remark.toLowerCase();
                       // Check if the last remark contains the filter phrases
-                      if (remarkText.includes("return to store") || remarkText.includes("submit in store")) {
+                      if (remarkText.includes("return to store") 
+                        || remarkText.includes("submit in store")
+                        || remarkText.includes("submite in store")
+                        || remarkText.includes("submited in store")
+                        || remarkText.includes("Send to store")
+                      
+                      ) {
                         // If it matches, try to show the previous remark instead
                         if (log.length > 1) {
                           displayRemark = log[log.length - 2]; // Show the second-to-last remark

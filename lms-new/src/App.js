@@ -506,7 +506,7 @@ function App() {
     if (userInfo && location.pathname === `${mainRoute}/`) {
       navigate(`${mainRoute}/home`, { replace: true });
     }
-    console.log("hii")
+   // console.log("hii")
   }, [location , navigate]);
 
 
