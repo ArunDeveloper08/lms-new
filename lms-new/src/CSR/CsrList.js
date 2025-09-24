@@ -1258,7 +1258,7 @@ const CsrList = () => {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <Box sx={{ display: "flex", gap: 0.5, justifyContent: "center" }}>
-                          {row.Status === "Open" && (
+                          {(row.Status === "Open" || row.Status == null) && (
                             <Button
                               variant="contained"
                               onClick={() => handleEdit(row)}
@@ -1279,7 +1279,7 @@ const CsrList = () => {
                               Edit
                             </Button>
                           )}
-                          {((row.Status === "Open" ) && a.data?.Designation == "CRM") && (
+                          {(row.Status === "Open" || row.Status == null ) && (
                             <Button
                               variant="contained"
                               onClick={() => handleCloseComplaint(row)}
@@ -1300,7 +1300,7 @@ const CsrList = () => {
                               Close
                             </Button>
                           )}
-                          {(row.Status === "Close" || row.Status === "Open") && ( // Show PDF for both Open and Closed
+                          {(row.Status === "Close" || row.Status === "Open" ||  row.Status == null) && ( // Show PDF for both Open and Closed
                             <Button
                               variant="contained"
                               onClick={() => handlePDF(row)}

@@ -41,7 +41,7 @@ const AddNewProduct = ({ setOpenAdd, openAdd, api }) => {
     if (data.Meter_Serial_No.trim().length < 3) {
       return alert("Serial Number must be Atleast 3 characters");
     }
-    setLoading(true);
+    setLoading(true); 
     axios
       .post(window.MyApiRoute + `record/add?category=${data.product}`, data)
       .then((res) => {

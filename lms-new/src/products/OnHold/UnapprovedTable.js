@@ -566,6 +566,8 @@ const UnapprovedTable = ({
                         || remarkText.includes("submite in store")
                         || remarkText.includes("submited in store")
                         || remarkText.includes("Send to store")
+                        || remarkText.includes("summited in store")
+                        || remarkText.includes("submitted in store")
                       
                       ) {
                         // If it matches, try to show the previous remark instead

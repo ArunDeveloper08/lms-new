@@ -40,4 +40,9 @@ export const ProductList = [
   ["Dye", "Dye"],
   ["LCD DCU", "lcdDcu"],
   ["Crystal Meter", "crystalMeter"],
+  ["DCU Modem", "dcuModem"],
+  ["DG Modem", "dgModem"],
+  ["Crystal Interphase 3 Port", "crystalInterphase3Port"],
+  ["Crystal Interphase 4 Port" , "crystalInterphase4Port" ],
+  ["Crystal Power" , "crystalPower" ],
 ];

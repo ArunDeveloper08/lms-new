@@ -185,12 +185,14 @@ const CsrDownload = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
+  //  console.log("CSRNO" ,csrNo )
     if (csrNo) {
       axios
         .post(`${window.MyApiRoute}meterTransfer/getCsr`, { CSr_NO: csrNo })
         .then((res) => {
           if (res.data.ApiStatus === "TRUE") {
-            setData(res.data.Data[0]);
+          //  console.log("inside loop" , res.data.Data[0])
+            setData(res?.data?.Data?.[0]);
           } else {
             alert("Failed to fetch CSR data");
           }
@@ -201,6 +203,7 @@ const CsrDownload = () => {
         });
     }
   }, [csrNo]);
+  //console.log("data" , data)
 
   if (!data) return <p className="text-center py-10">Loading...</p>;
 

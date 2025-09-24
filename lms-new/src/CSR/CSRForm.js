@@ -44,8 +44,8 @@ const CSRForm = () => {
         name: a.name,
       })
       .then((res) => {
-        navigate(`${mainRoute}/csrformdownload`, { state: res.data });
-        console.log(res.data);
+        navigate(`${mainRoute}/csrformdownload?csr=${res?.data?.data.CSr_NO}`, { state: res.data });
+    
       })
       .catch((err) => console.log(err));
     // navigate("/csrformdownload");
