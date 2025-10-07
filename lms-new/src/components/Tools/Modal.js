@@ -5,12 +5,15 @@ import SendEngineerModal from "./SendEngineerModal";
 import SendToRejectedModal from "./SendToRejectedModal";
 import SendProductionModal from "./Production/SendProductionModal";
 import MechanicalModal from "./mechanical/MechanicalModal";
+import SendToCrmModal from "./SendToCrmModal";
 
 const Modals = ({ opens, setOpens, checked, tool, setBadgeCount ,setChecked}) => {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
+  const [open3, setOpen3] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [yes, setYes] = useState(false);
+
 
   const handleClose = () => {
     setOpens(!opens);
@@ -21,6 +24,9 @@ const Modals = ({ opens, setOpens, checked, tool, setBadgeCount ,setChecked}) =>
   };
   const handleSubmit1 = () => {
     setYes(!yes);
+  };
+  const handleSubmit2 = () => {
+    setOpen3(!open3);
   };
 
   return (
@@ -73,6 +79,11 @@ const Modals = ({ opens, setOpens, checked, tool, setBadgeCount ,setChecked}) =>
               Send to Rejected
             </Button>
           </div>
+          {/* <div className="flex justify-center mt-[50px]">
+            <Button variant="contained" onClick={handleSubmit2}>
+              Send to CRM
+            </Button>
+          </div> */}
         </Box>
       </Modal>
 
@@ -85,6 +96,15 @@ const Modals = ({ opens, setOpens, checked, tool, setBadgeCount ,setChecked}) =>
         setOpens={setOpens}
         setChecked={setChecked}
       />
+            {/* <SendToCrmModal
+        open3={open3}
+        setOpen3={setOpen3}
+        checked={checked}
+        tool={tool}
+        setBadgeCount={setBadgeCount}
+        setOpens={setOpens}
+        setChecked={setChecked}
+      /> */}
       <SendProductionModal
         open1={open1}
         setOpen1={setOpen1}
@@ -103,6 +123,7 @@ const Modals = ({ opens, setOpens, checked, tool, setBadgeCount ,setChecked}) =>
         setOpens={setOpens}
         setChecked={setChecked}
       />
+
       <MechanicalModal
         open2={open2}
         setOpen2={setOpen2}

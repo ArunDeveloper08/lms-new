@@ -266,7 +266,14 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import CheckBox from "@mui/material/Checkbox";
-import { Badge, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Badge,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
 import { useNavigate } from "react-router-dom";
@@ -316,8 +323,8 @@ const UnapproveTable = ({
     check: check,
     userInfo,
   });
-    const [remarkModalOpen, setRemarkModalOpen] = useState(false);
-    const [selectedRemarks, setSelectedRemarks] = useState([]);
+  const [remarkModalOpen, setRemarkModalOpen] = useState(false);
+  const [selectedRemarks, setSelectedRemarks] = useState([]);
   const checkboxLabel = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const handleCheck = (e, item) => {
@@ -339,9 +346,9 @@ const UnapproveTable = ({
   //   navigate(`${downloadUrl}/${challanNumber}?type=${query}`);
   // };
   const handlePdfDownload = (challanNumber) => {
-  const url = `${downloadUrl}/${challanNumber}?type=${query}`;
-  window.open(url, '_blank'); // Opens in a new tab
-};
+    const url = `${downloadUrl}/${challanNumber}?type=${query}`;
+    window.open(url, "_blank"); // Opens in a new tab
+  };
 
   const handleRemarkClick = (remarks) => {
     setSelectedRemarks(remarks);
@@ -365,49 +372,57 @@ const UnapproveTable = ({
 
         <TableContainer
           sx={{ paddingY: 0, maxHeight: 380, overflowX: "auto" }}
-          component={Paper}>
+          component={Paper}
+        >
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {canChange && (
                   <StyledTableCell
                     sx={{ paddingX: 0, minWidth: 100 }}
-                    align="center">
+                    align="center"
+                  >
                     Options
                   </StyledTableCell>
                 )}
 
                 <StyledTableCell
                   sx={{ paddingX: 0, minWidth: 100 }}
-                  align="center">
+                  align="center"
+                >
                   PDF
                 </StyledTableCell>
                 <StyledTableCell
                   sx={{ paddingX: 0, minWidth: 100 }}
-                  align="center">
+                  align="center"
+                >
                   challan No.
                 </StyledTableCell>
                 {user.Designation === "storekeeper" && (
                   <StyledTableCell
                     sx={{ paddingX: 0, minWidth: 100 }}
-                    align="center">
+                    align="center"
+                  >
                     Name
                   </StyledTableCell>
                 )}
 
                 <StyledTableCell
                   sx={{ paddingX: 0, minWidth: 100 }}
-                  align="center">
+                  align="center"
+                >
                   Tool Name
                 </StyledTableCell>
                 <StyledTableCell
                   sx={{ paddingX: 0, minWidth: 100 }}
-                  align="center">
+                  align="center"
+                >
                   SerialNumber
                 </StyledTableCell>
                 <StyledTableCell
                   sx={{ paddingX: 0, minWidth: 100 }}
-                  align="center">
+                  align="center"
+                >
                   Remark
                 </StyledTableCell>
               </TableRow>
@@ -439,19 +454,18 @@ const UnapproveTable = ({
                   // }
                   let logs = [];
 
-if (a?.ActivityLog) {
-  try {
-    logs = JSON.parse(a.ActivityLog) || [];
-  } catch (error) {
-    logs = [{ date: "12-12-1212", remark: "Null" }];
-  }
-} else {
-  logs = [{ date: "12-12-1212", remark: "Null" }];
-}
+                  if (a?.ActivityLog) {
+                    try {
+                      logs = JSON.parse(a.ActivityLog) || [];
+                    } catch (error) {
+                      logs = [{ date: "12-12-1212", remark: "Null" }];
+                    }
+                  } else {
+                    logs = [{ date: "12-12-1212", remark: "Null" }];
+                  }
 
-// Get the last remark safely
-const lastRemark = logs.length ? logs[logs.length - 1] : null;
-
+                  // Get the last remark safely
+                  const lastRemark = logs.length ? logs[logs.length - 1] : null;
 
                   return (
                     <StyledTableRow key={b}>
@@ -469,7 +483,8 @@ const lastRemark = logs.length ? logs[logs.length - 1] : null;
                       <StyledTableCell sx={{ paddingY: 1 }} align="center">
                         <Button
                           variant="contained"
-                          onClick={() => handlePdfDownload(a?.challanNumber)}>
+                          onClick={() => handlePdfDownload(a?.challanNumber)}
+                        >
                           {" "}
                           Pdf
                         </Button>
@@ -492,10 +507,10 @@ const lastRemark = logs.length ? logs[logs.length - 1] : null;
                       <StyledTableCell align="center">
                         {a.SerialNumber}
                       </StyledTableCell>
-                      <StyledTableCell align="center"
-                      
-                      className="cursor-pointer text-blue-600 "
-                      onClick={() => handleRemarkClick(logs)}
+                      <StyledTableCell
+                        align="center"
+                        className="cursor-pointer text-blue-600 "
+                        onClick={() => handleRemarkClick(logs)}
                       >
                         {/* {log.map((a, b) => {
                           return (
@@ -505,7 +520,9 @@ const lastRemark = logs.length ? logs[logs.length - 1] : null;
                             </p>
                           );
                         })} */}
-                         {lastRemark ? `Date: ${lastRemark.date}, Remark: ${lastRemark.remark}` : "No Remarks"}
+                        {lastRemark
+                          ? `Date: ${lastRemark.date}, Remark: ${lastRemark.remark}`
+                          : "No Remarks"}
                       </StyledTableCell>
                     </StyledTableRow>
                   );
@@ -517,7 +534,8 @@ const lastRemark = logs.length ? logs[logs.length - 1] : null;
         {selectedRows.length ? (
           <p
             onClick={handleOpenModal}
-            className="fixed cursor-pointer bottom-10 right-10">
+            className="fixed cursor-pointer bottom-10 right-10"
+          >
             <Badge color="primary" badgeContent={selectedRows.length}>
               <SendIcon sx={{ color: "#1976d2", fontSize: 40 }} />
             </Badge>
@@ -536,22 +554,27 @@ const lastRemark = logs.length ? logs[logs.length - 1] : null;
           selectedRows={selectedRows}
         />
       )}
-         <Dialog open={remarkModalOpen} onClose={handleClose} maxWidth="sm" fullWidth>
-              <DialogTitle>All Remarks</DialogTitle>
-              <DialogContent>
-                {selectedRemarks?.map((log, index) => (
-                  <p key={index} className="mt-2">
-                    <strong>Date:</strong> {log.date} <br />
-                    <strong>Remark:</strong> {log.remark}
-                  </p>
-                ))}
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  Close
-                </Button>
-              </DialogActions>
-            </Dialog>
+      <Dialog
+        open={remarkModalOpen}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>All Remarks</DialogTitle>
+        <DialogContent>
+          {selectedRemarks?.map((log, index) => (
+            <p key={index} className="mt-2">
+              <strong>Date:</strong> {log.date} <br />
+              <strong>Remark:</strong> {log.remark}
+            </p>
+          ))}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Fragment>
   );
 };

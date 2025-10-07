@@ -102,42 +102,78 @@ const ChallanHistory = () => {
   };
  
 
-const handleOnExport = (data) => {
-  if (!data || !Array.isArray(data)) {
+// const handleOnExport = (data) => {
+//   if (!data || !Array.isArray(data)) {
+//     console.error("Invalid data provided for export.");
+//     return;
+//   }
+
+//   // Extract and process only the "Products" data
+//   const newData = data.flatMap((item) => {
+//     if (!Array.isArray(item.Products)) return [];
+
+//     return item.Products.map((product) => {
+//       // Flatten the product data while keeping necessary fields
+//       return {
+//         ...product, // Include all product fields
+//         parentId: item.id, // If needed, associate with parent
+//       };
+//     });
+//   });
+
+//   if (newData.length === 0) {
+//     console.warn("No product data found for export.");
+//     return;
+//   }
+
+//   // Create Excel workbook & sheet
+//   const wb = XLSX.utils.book_new();
+//   const ws = XLSX.utils.json_to_sheet(newData);
+
+//   // Append sheet and save file
+//   XLSX.utils.book_append_sheet(wb, ws, "Products");
+//   XLSX.writeFile(wb, `Products-${new Date().toISOString().split("T")[0]}.xlsx`);
+
+//   console.log("Excel file exported successfully.");
+// };
+
+const handleOnExport = (apiData) => {
+  if (!apiData || !Array.isArray(apiData)) {
     console.error("Invalid data provided for export.");
     return;
   }
 
-  // Extract and process only the "Products" data
-  const newData = data.flatMap((item) => {
-    if (!Array.isArray(item.Products)) return [];
+  const exportData = [];
 
-    return item.Products.map((product) => {
-      // Flatten the product data while keeping necessary fields
-      return {
-        ...product, // Include all product fields
-        parentId: item.id, // If needed, associate with parent
-      };
-    });
+  apiData.forEach((challanItem) => {
+    if (challanItem.Products && Array.isArray(challanItem.Products)) {
+      challanItem.Products.forEach((product) => {
+        exportData.push({
+          "Challan No.": challanItem.challanNumber,
+          "Product Type": product.productType,
+          "Serial No.": product.productSrNo,
+          "Status": product.status, 
+          "Issue To Engineer": product.issueToEngineer,
+        });
+      });
+    }
   });
 
-  if (newData.length === 0) {
-    console.warn("No product data found for export.");
+  if (exportData.length === 0) {
+    console.warn("No relevant data found for export.");
     return;
   }
 
   // Create Excel workbook & sheet
   const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.json_to_sheet(newData);
+  const ws = XLSX.utils.json_to_sheet(exportData);
 
   // Append sheet and save file
-  XLSX.utils.book_append_sheet(wb, ws, "Products");
-  XLSX.writeFile(wb, `Products-${new Date().toISOString().split("T")[0]}.xlsx`);
+  XLSX.utils.book_append_sheet(wb, ws, "Challan Products");
+  XLSX.writeFile(wb, `Challan_Products_${new Date().toISOString().split("T")[0]}.xlsx`);
 
   console.log("Excel file exported successfully.");
 };
-
-
   return (
     <section>
       <div className="flex justify-around items-center mt-2 gap-x-1">
@@ -202,7 +238,9 @@ const handleOnExport = (data) => {
         </Button>
         <Button 
         variant="contained"
-         sx={{ paddingX: 4 }}
+        
+         sx={{ paddingX: 4 , backgroundColor : "green" }}
+         
          onClick={()=>handleOnExport(data)}
          
          >

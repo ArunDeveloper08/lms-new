@@ -42,7 +42,8 @@ export const ProductList = [
   ["Crystal Meter", "crystalMeter"],
   ["DCU Modem", "dcuModem"],
   ["DG Modem", "dgModem"],
-  ["Crystal Interphase 3 Port", "crystalInterphase3Port"],
-  ["Crystal Interphase 4 Port" , "crystalInterphase4Port" ],
+  ["Crystal Interphase  Port", "crystalInterphasePort"],
+  // ["Crystal Interphase 3 Port", "crystalInterphase3Port"],
+  // ["Crystal Interphase 4 Port" , "crystalInterphase4Port" ],
   ["Crystal Power" , "crystalPower" ],
 ];

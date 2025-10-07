@@ -177,7 +177,7 @@ const AllTools = ({tool}) => {
                 sx={{ paddingX: 0, minWidth: 100 }}
                 align="center"
               >
-                Engineer Name
+                 Name
               </StyledTableCell>
               <StyledTableCell
                 sx={{ paddingX: 0, minWidth: 100 }}
@@ -245,6 +245,18 @@ const AllTools = ({tool}) => {
               >
                 Engg-To-Store
               </StyledTableCell>
+              {/* <StyledTableCell
+                sx={{ paddingX: 0, minWidth: 120 }}
+                align="center"
+              >
+                Store-To-CRM
+              </StyledTableCell>
+              <StyledTableCell
+                sx={{ paddingX: 0, minWidth: 120 }}
+                align="center"
+              >
+                CRM-To-Store
+              </StyledTableCell> */}
        
               <StyledTableCell
                 sx={{ paddingX: 0, minWidth: 400 }}
@@ -310,6 +322,12 @@ const AllTools = ({tool}) => {
                   <StyledTableCell align="center">
                     {item.EngineerToStore ? 1 : 0}
                   </StyledTableCell>
+                  {/* <StyledTableCell align="center">
+                    {item.StoreToCRM   ? 1 : 0}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {item.CRMToStore   ? 1 : 0}
+                  </StyledTableCell> */}
                
                   <StyledTableCell align="center"
                     className="cursor-pointer text-blue-600 "
