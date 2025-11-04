@@ -148,13 +148,18 @@ const handleOnExport = (apiData) => {
   apiData.forEach((challanItem) => {
     if (challanItem.Products && Array.isArray(challanItem.Products)) {
       challanItem.Products.forEach((product) => {
+             if (product.status === "open") {
         exportData.push({
           "Challan No.": challanItem.challanNumber,
           "Product Type": product.productType,
           "Serial No.": product.productSrNo,
-          "Status": product.status, 
+          "Status": product.status,
           "Issue To Engineer": product.issueToEngineer,
+          "Site Name": product.issueToSite,   
+          "Challan Issue Date": product.createdAt,
+          "ActivityLog": product.ActivityLog,
         });
+      }
       });
     }
   });

@@ -67,6 +67,9 @@ import EngineerInitiateByStore from "./challan/engineer-returnable/initiate-by-s
 import EngineerInitiateByDealer from "./challan/engineer-returnable/initiate-by-engineer.js";
 import EngineerChallanHistory from "./challan/engineer-returnable/challan-history.js";
 import ThirdPartyNonCreateChallan from "./challan/third-party-non-returnable/create-challan.js";
+
+import GetBackDealerChallan from "./challan/third-party-non-returnable/get-back-dealer-challan.js";
+
 import ThirdPartyNonChallanHistory from "./challan/third-party-non-returnable/challan-history.js";
 import ThirdPartyNonChallan from "./products/OnHold/Third-party-non-return.js";
 import ViewEngineerChallanPage from "./challan/view-engineer-challan/view-engineer-page.js";
@@ -235,6 +238,7 @@ function App() {
             <Route exact path="third-party-non-returnable" element={<ThirdPartyNonReturnableChallanPage />}>
               <Route index path="create-challan" element={<ThirdPartyNonCreateChallan />} />
               <Route exact path="challan-history" element={<ThirdPartyNonChallanHistory />} />
+              <Route exact path="get-back-dealer-challan" element={<GetBackDealerChallan />} />
             </Route>
           </Route>
           <Route exact path={`${mainRoute}/view-engineer-challan`} element={<ViewEngineerChallanPage />}>

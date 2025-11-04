@@ -76,6 +76,10 @@ const config = [
         name: "Challan History",
         path: "challan-history"
     },
+    {
+        name: "Get Back Dealer Challan",
+        path: "get-back-dealer-challan"
+    },
 ];
 
 const ThirdPartyNonReturnablePage = () => {
